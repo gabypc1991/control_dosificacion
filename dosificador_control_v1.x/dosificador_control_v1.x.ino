@@ -1,5 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
+#include <TimerOne.h>
 
 
 float peso = 0;
@@ -25,6 +26,7 @@ long latter_time;
 long difference;
 bool endtext = false;
 bool edit = false;
+bool proc_activo = false;
 char last_key_pressed = ' ';
 byte num_times_pressed = 0;
 String text;
@@ -71,9 +73,15 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
 ////////////////////////////////// Void Setup() ///////////
 void setup() {
  Serial.begin(9600);
+ Timer1.initialize(100000);
+ Timer1.attachInterrupt(proceso);
  lcd.init();
  lcd.backlight();
  pinMode(12, OUTPUT);
+ pinMode(3, OUTPUT);
+ pinMode(4, OUTPUT);
+ pinMode(5, OUTPUT);
+ pinMode(6, OUTPUT);
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
 } 
@@ -137,14 +145,79 @@ void accion_2(){
 
 /////////////////////Menu_3  //////////////////////////////////
 void menu_3(){ 
-  lcd.setCursor(0,0); lcd.print("Form.1   t: 0:04    ");
-  lcd.setCursor(0,1); lcd.print("D1:12(25) D2:28(35) ");
-  lcd.setCursor(0,2); lcd.print("D3:20(25) D4:0(0)   ");
-  lcd.setCursor(0,3); lcd.print("Parar <#>  Pausa <*>");
+  lcd.setCursor(0,0); lcd.print("Form.1   t:");
+  lcd.setCursor(0,1); lcd.print("D1(");
+  lcd.setCursor(3,1); lcd.print(f1D1);
+  lcd.setCursor(6,1); lcd.print(")");
+  lcd.setCursor(10,1); lcd.print("D2(");
+  lcd.setCursor(13,1); lcd.print(f1D2);
+  lcd.setCursor(16,1); lcd.print(")");
+  lcd.setCursor(0,2); lcd.print("D3(");
+  lcd.setCursor(3,2); lcd.print(f1D3);
+  lcd.setCursor(6,2); lcd.print(")");
+  lcd.setCursor(10,2); lcd.print("D4(");
+  lcd.setCursor(13,2); lcd.print(f1D4);
+  lcd.setCursor(16,2); lcd.print(")");
+  lcd.setCursor(0,3); lcd.print("Parar <#>  Inic. <*>");
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
     if(pulsacion == '#') {contador = 1;lcd.clear();}
+    if(pulsacion == '*') {
+      proc_activo = true;
+      while(proc_activo != false){
+    int peso_temp;
+    int peso_d1;
+    int peso_d2;
+    int peso_d3;
+    int peso_d4;
+    
+    int peso_balanza;
+    int tiempo;
+    
+    while(peso_temp < f1D1){
+      peso_temp += 1;
+      peso_balanza +=1;
+      peso_d1 = peso_temp;
+      tiempo += 1;
+      lcd.setCursor(11,0);lcd.print(tiempo);
+      lcd.setCursor(7,1);lcd.print(peso_d1);
+      delay(100);            
+      }
+      peso_temp = 0;
+      while(peso_temp < f1D2){
+      peso_temp += 1;
+      peso_balanza +=1;
+      peso_d2 = peso_temp;
+      tiempo += 1;
+      lcd.setCursor(11,0);lcd.print(tiempo);
+      lcd.setCursor(17,1);lcd.print(peso_d2);
+      delay(100);            
+      }
+      peso_temp = 0;
+      while(peso_temp < f1D3){
+      peso_temp += 1;
+      peso_balanza +=1;
+      peso_d3 = peso_temp;
+      tiempo += 1;
+      lcd.setCursor(11,0);lcd.print(tiempo);
+      lcd.setCursor(7,2);lcd.print(peso_d3);
+      delay(100);            
+      }     
+      peso_temp = 0;
+      while(peso_temp < f1D4){
+      peso_temp += 1;
+      peso_balanza +=1;
+      peso_d4 = peso_temp;
+      tiempo += 1;
+      lcd.setCursor(11,0);lcd.print(tiempo);
+      lcd.setCursor(17,2);lcd.print(peso_d4);
+      delay(100);            
+      }
+      peso_temp = 0; 
+      proc_activo = false;     
+    }
+      }
     
 }
 
@@ -335,6 +408,10 @@ String readVal(){
       }   
     }  
   return(myString);  
+  }
+
+void proceso(){
+  
   }
 
 void keypadEvent(KeypadEvent key) {
