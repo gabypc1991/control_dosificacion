@@ -36,6 +36,12 @@ int pos_col = 0;
 int pos_fil = 0;
 String myString = "";
 
+int tiempo = 0;
+int now = 0;
+int minutes = 0;
+int hour = 0;
+int segundo = 0;
+
 int  contador = 1;    // cuenta el nivel del menu en el que se esta
 const byte ROWS = 4;  //Cuatro Filas
 const byte COLS = 4;  //Cuatro Columnas 
@@ -165,7 +171,7 @@ void accion_3(){
     if(pulsacion == '#') {contador = 1;lcd.clear();}
     if(pulsacion == '*') {
       proc_activo = true;
-      while(proc_activo != false){
+   while(proc_activo != false){
     int peso_temp;
     int peso_d1;
     int peso_d2;
@@ -173,16 +179,18 @@ void accion_3(){
     int peso_d4;
     
     int peso_balanza;
-    int tiempo;
+    
     
     while(peso_temp < f1D1){
       peso_temp += 1;
       peso_balanza +=1;
       peso_d1 = peso_temp;
       tiempo += 1;
-      lcd.setCursor(11,0);lcd.print(tiempo);
+      reloj();
+      lcd.setCursor(11,0);lcd.print(minutes);
+      lcd.setCursor(14,0);lcd.print(segundo);
       lcd.setCursor(7,1);lcd.print(peso_d1);
-      delay(100);            
+      delay(1000);            
       }
       peso_temp = 0;
       while(peso_temp < f1D2){
@@ -190,9 +198,11 @@ void accion_3(){
       peso_balanza +=1;
       peso_d2 = peso_temp;
       tiempo += 1;
-      lcd.setCursor(11,0);lcd.print(tiempo);
+      reloj();
+      lcd.setCursor(11,0);lcd.print(minutes);
+      lcd.setCursor(14,0);lcd.print(segundo);
       lcd.setCursor(17,1);lcd.print(peso_d2);
-      delay(100);            
+      delay(1000);            
       }
       peso_temp = 0;
       while(peso_temp < f1D3){
@@ -200,9 +210,11 @@ void accion_3(){
       peso_balanza +=1;
       peso_d3 = peso_temp;
       tiempo += 1;
-      lcd.setCursor(11,0);lcd.print(tiempo);
+      reloj();
+      lcd.setCursor(11,0);lcd.print(minutes);
+      lcd.setCursor(14,0);lcd.print(segundo);
       lcd.setCursor(7,2);lcd.print(peso_d3);
-      delay(100);            
+      delay(1000);            
       }     
       peso_temp = 0;
       while(peso_temp < f1D4){
@@ -210,9 +222,11 @@ void accion_3(){
       peso_balanza +=1;
       peso_d4 = peso_temp;
       tiempo += 1;
-      lcd.setCursor(11,0);lcd.print(tiempo);
+      reloj();
+      lcd.setCursor(11,0);lcd.print(minutes);
+      lcd.setCursor(14,0);lcd.print(segundo);
       lcd.setCursor(17,2);lcd.print(peso_d4);
-      delay(100);            
+      delay(1000);            
       }
       peso_temp = 0; 
       proc_activo = false;     
@@ -413,6 +427,21 @@ String readVal(){
 void proceso(){
   
   }
+
+void reloj() {
+  if(tiempo > now){//cada segunto
+    now = tiempo;
+    
+    if(minutes < 60 && segundo == 60){
+      minutes ++;
+    }
+    if(segundo < 59){
+      segundo ++;
+    }else{
+      segundo = 0;
+      }
+  }
+}
 
 void keypadEvent(KeypadEvent key) {
 switch (Teclado1.getState()) {
