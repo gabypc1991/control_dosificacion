@@ -5,7 +5,8 @@
 
 float peso = 0;
 int balanza = 0;
-float calibracion = 0;
+int balanza_bruto = 0;
+int tara = 0;
 int f1D1 = 0;
 int f1D2 = 0;
 int f1D3 = 0;
@@ -91,9 +92,13 @@ void setup() {
  pinMode(6, OUTPUT);
 
  f1D1 = EEPROM.read(0);
+ f1D1 = f1D1 * 4;
  f1D2 = EEPROM.read(1);
+ f1D2 = f1D2 * 4;
  f1D3 = EEPROM.read(2);
+ f1D3 = f1D3 * 4;
  f1D4 = EEPROM.read(3);
+ f1D4 = f1D4 * 4;
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
@@ -104,7 +109,8 @@ void loop() {
  if (pulsacion != 0) {      
     lcd.clear();
     delay(100);
- } 
+ }
+ if(contador == 14){ menu_6();accion_6();} 
  if(contador == 13){ menu_5_4();accion_5_4();}
  if(contador == 12){ menu_5_3();accion_5_3();}
  if(contador == 11){ menu_5_2();accion_5_2();}
@@ -134,13 +140,14 @@ void intro_0(){
 void menu_1(){ 
    lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
    lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
-   lcd.setCursor(0,2); lcd.print("                    ");
-   lcd.setCursor(0,3); lcd.print("Mas...            >3");
+   lcd.setCursor(0,2); lcd.print("BALANZA           >3");
+   lcd.setCursor(0,3); lcd.print("Mas...            >4");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1(){ 
   if(pulsacion == '1') {contador = 2;lcd.clear();}
   if(pulsacion == '2') {contador = 4;lcd.clear();}
+  if(pulsacion == '3') {contador = 14;lcd.clear();}
 }
 
 /////////////////////Menu_2  //////////////////////////////////
@@ -277,7 +284,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D1 = myString.toInt();
-        EEPROM.write(0, f1D1);        
+        EEPROM.write(0, f1D1/4);        
         lcd.setCursor(11,2); lcd.print(f1D1);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);               
@@ -305,7 +312,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D2 = myString.toInt();        
-        EEPROM.write(1, f1D2);          
+        EEPROM.write(1, f1D2/4);          
         lcd.setCursor(11,2); lcd.print(f1D2);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -334,7 +341,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D3 = myString.toInt();        
-        EEPROM.write(2, f1D3);       
+        EEPROM.write(2, f1D3/4);       
         lcd.setCursor(11,2); lcd.print(f1D3);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -363,7 +370,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D4 = myString.toInt();        
-        EEPROM.write(3, f1D4);        
+        EEPROM.write(3, f1D4/4);        
         lcd.setCursor(11,2); lcd.print(f1D4);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -442,6 +449,19 @@ void accion_5(){
         if(pulsacion == '*') {contador = 9;lcd.clear();}
     }
 
+/////////////////////////  Menu_6  //////////////////////////////////
+    void menu_6(){ 
+      lcd.setCursor(0,0); lcd.print("       BALANZA      ");
+      lcd.setCursor(0,1); lcd.print("      TARA  <*>     ");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(11,2); lcd.print(balanza);lcd.print("   ");
+      lcd.setCursor(0,3); lcd.print("          Volver <#>");            
+    }
+/////////////////////////Accion_6 //////////////////////////////
+    void accion_6(){         
+        if(pulsacion == '#') {contador = 1;lcd.clear();}
+        if(pulsacion == '*') {tara = balanza_bruto;}                
+    }
 
 String readVal(){
   myString = "";
@@ -459,7 +479,8 @@ String readVal(){
 
 void proceso(){
   int temp_bal = analogRead(A8);
-  balanza = map(temp_bal, 0, 1023, 0, 999);
+  balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
+  balanza = (balanza_bruto - tara);
   }
 
 void reloj() {
