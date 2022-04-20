@@ -1,9 +1,10 @@
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
 #include <TimerOne.h>
-
+#include <EEPROM.h>
 
 float peso = 0;
+int balanza = 0;
 float calibracion = 0;
 int f1D1 = 0;
 int f1D2 = 0;
@@ -88,6 +89,12 @@ void setup() {
  pinMode(4, OUTPUT);
  pinMode(5, OUTPUT);
  pinMode(6, OUTPUT);
+
+ f1D1 = EEPROM.read(0);
+ f1D2 = EEPROM.read(1);
+ f1D3 = EEPROM.read(2);
+ f1D4 = EEPROM.read(3);
+ 
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
 } 
@@ -126,7 +133,7 @@ void intro_0(){
 /////////////////////Menu_1  //////////////////////////////////
 void menu_1(){ 
    lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
-   lcd.setCursor(0,1); lcd.print("FORMULAS          >2");
+   lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
    lcd.setCursor(0,2); lcd.print("                    ");
    lcd.setCursor(0,3); lcd.print("Mas...            >3");
 }
@@ -164,76 +171,82 @@ void menu_3(){
   lcd.setCursor(10,2); lcd.print("D4(");
   lcd.setCursor(13,2); lcd.print(f1D4);
   lcd.setCursor(16,2); lcd.print(")");
-  lcd.setCursor(0,3); lcd.print("Parar <#>  Inic. <*>");
+  lcd.setCursor(0,3); lcd.print("Volver <#> Inic. <*>");
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
-    if(pulsacion == '#') {contador = 1;lcd.clear();}
-    if(pulsacion == '*') {
-      proc_activo = true;
+   if(pulsacion == '#') {contador = 1;lcd.clear();}
+   
+   if(pulsacion == '*' && balanza < 5) {
+    
+   proc_activo = true;
+   
    while(proc_activo != false){
-    int peso_temp;
-    int peso_d1;
-    int peso_d2;
-    int peso_d3;
-    int peso_d4;
-    
-    int peso_balanza;
-    
-    
-    while(peso_temp < f1D1){
-      peso_temp += 1;
-      peso_balanza +=1;
-      peso_d1 = peso_temp;
-      tiempo += 1;
-      reloj();
-      lcd.setCursor(11,0);lcd.print(minutes);
-      lcd.setCursor(14,0);lcd.print(segundo);
-      lcd.setCursor(7,1);lcd.print(peso_d1);
-      delay(1000);            
-      }
+       int peso_temp;
+       int peso_d1;
+       int peso_d2;
+       int peso_d3;
+       int peso_d4;
+       lcd.setCursor(0,3);lcd.print("                    ");
+       lcd.setCursor(0,3);lcd.print("Total Kg:");
+        
+       while(peso_temp < f1D1) {      
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(9,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+            peso_temp = balanza;
+            peso_d1 = peso_temp;
+            tiempo += 1;
+            reloj();
+            lcd.setCursor(7,1);lcd.print(peso_d1);
+            delay(100);            
+            }
       peso_temp = 0;
+     
       while(peso_temp < f1D2){
-      peso_temp += 1;
-      peso_balanza +=1;
-      peso_d2 = peso_temp;
-      tiempo += 1;
-      reloj();
-      lcd.setCursor(11,0);lcd.print(minutes);
-      lcd.setCursor(14,0);lcd.print(segundo);
-      lcd.setCursor(17,1);lcd.print(peso_d2);
-      delay(1000);            
-      }
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(9,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+            peso_temp = balanza - peso_d1;
+            peso_d2 = peso_temp;
+            tiempo += 1;
+            reloj();
+            lcd.setCursor(17,1);lcd.print(peso_d2);
+            delay(100);            
+            }
       peso_temp = 0;
+      
       while(peso_temp < f1D3){
-      peso_temp += 1;
-      peso_balanza +=1;
-      peso_d3 = peso_temp;
-      tiempo += 1;
-      reloj();
-      lcd.setCursor(11,0);lcd.print(minutes);
-      lcd.setCursor(14,0);lcd.print(segundo);
-      lcd.setCursor(7,2);lcd.print(peso_d3);
-      delay(1000);            
-      }     
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(9,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+            peso_temp = balanza - (peso_d1 + peso_d2);
+            peso_d3 = peso_temp;
+            tiempo += 1;
+            reloj();
+            lcd.setCursor(7,2);lcd.print(peso_d3);
+            delay(100);            
+            }     
       peso_temp = 0;
+      
       while(peso_temp < f1D4){
-      peso_temp += 1;
-      peso_balanza +=1;
-      peso_d4 = peso_temp;
-      tiempo += 1;
-      reloj();
-      lcd.setCursor(11,0);lcd.print(minutes);
-      lcd.setCursor(14,0);lcd.print(segundo);
-      lcd.setCursor(17,2);lcd.print(peso_d4);
-      delay(1000);            
-      }
-      peso_temp = 0; 
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(9,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+            peso_temp = balanza - (peso_d1 + peso_d2 + peso_d3);
+            peso_d4 = peso_temp;
+            tiempo += 1;
+            reloj();
+            lcd.setCursor(17,2);lcd.print(peso_d4);
+            delay(100);            
+            }
+      peso_temp = 0;
+      tiempo = 0;
+      now = 0;
       proc_activo = false;     
     }
-      }
-    
-}
+   }    
+  }
 
 /////////////////////Menu_4  //////////////////////////////////
 void menu_4(){ 
@@ -264,15 +277,20 @@ void accion_4(){
         readVal();
         edit = true;
         f1D1 = myString.toInt();
+        EEPROM.write(0, f1D1);        
         lcd.setCursor(11,2); lcd.print(f1D1);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
-        delay(800);
+        delay(800);               
         }
-        lcd.setCursor(0,3); lcd.print("            D2-> <*>");      
+        contador = 4;
+        edit = false; 
+        lcd.clear();   
+        //lcd.setCursor(0,3); lcd.print("            D2-> <*>");      
     }
 /////////////////////////Accion_4_1 //////////////////////////////
     void accion_4_1(){         
-        if(pulsacion == '*') {contador = 6;edit = false;lcd.clear();}          
+        //if(pulsacion == '#') {contador = 4;edit = false;lcd.clear();}
+                
     }
 /////////////////////////Menu_4_2  //////////////////////////////////
     void menu_4_2(){ 
@@ -286,16 +304,21 @@ void accion_4(){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal();
         edit = true;
-        f1D2 = myString.toInt();
+        f1D2 = myString.toInt();        
+        EEPROM.write(1, f1D2);          
         lcd.setCursor(11,2); lcd.print(f1D2);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
-        } 
-        lcd.setCursor(0,3); lcd.print("            D3-> <*>");     
+           
+        }
+        edit = false;
+        contador = 4;
+        lcd.clear();  
+        //lcd.setCursor(0,3); lcd.print("            D3-> <*>");     
     }
 /////////////////////////Accion_4_2 //////////////////////////////
     void accion_4_2(){ 
-        if(pulsacion == '*') {contador = 7;edit = false;lcd.clear();}
+       // if(pulsacion == '*') {contador = 4;edit = false;lcd.clear();}
     }
 /////////////////////////Menu_4_3  //////////////////////////////////
     void menu_4_3(){ 
@@ -310,16 +333,21 @@ void accion_4(){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal();
         edit = true;
-        f1D3 = myString.toInt();
+        f1D3 = myString.toInt();        
+        EEPROM.write(2, f1D3);       
         lcd.setCursor(11,2); lcd.print(f1D3);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
+           
         }
-        lcd.setCursor(0,3); lcd.print("            D4-> <*>"); 
+        edit = false;
+        contador = 4;
+        lcd.clear(); 
+        //lcd.setCursor(0,3); lcd.print("            D4-> <*>"); 
     }
 /////////////////////////Accion_4_3 //////////////////////////////
     void accion_4_3(){ 
-        if(pulsacion == '*') {contador = 8;edit = false;lcd.clear();}
+        //if(pulsacion == '#') {contador = 4;edit = false;lcd.clear();}
     }
 /////////////////////////Menu_4_4  //////////////////////////////////
     void menu_4_4(){ 
@@ -334,17 +362,22 @@ void accion_4(){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal();
         edit = true;
-        f1D4 = myString.toInt();
+        f1D4 = myString.toInt();        
+        EEPROM.write(3, f1D4);        
         lcd.setCursor(11,2); lcd.print(f1D4);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
+          
         }
-        lcd.setCursor(0,3); lcd.print("          Volver <*>"); 
+        edit = false;
+        contador = 4;
+        lcd.clear();
+        //lcd.setCursor(0,3); lcd.print("          Volver <*>"); 
       
     }
 /////////////////////////Accion_4_4 //////////////////////////////
     void accion_4_4(){ 
-        if(pulsacion == '*') {contador = 4;edit = false;lcd.clear();}
+       // if(pulsacion == '#') {contador = 4;edit = false;lcd.clear();}
     }
 
 
@@ -425,22 +458,38 @@ String readVal(){
   }
 
 void proceso(){
-  
+  int temp_bal = analogRead(A8);
+  balanza = map(temp_bal, 0, 1023, 0, 999);
   }
 
 void reloj() {
-  if(tiempo > now){//cada segunto
-    now = tiempo;
-    
-    if(minutes < 60 && segundo == 60){
-      minutes ++;
-    }
-    if(segundo < 59){
-      segundo ++;
-    }else{
-      segundo = 0;
-      }
+  if(tiempo > now + 9){//cada segunto
+    now = tiempo;    
+    segundo++;
+  if(segundo>59){
+    minutes++;
+    segundo=0;
   }
+  if(minutes>59){
+    hour++;
+    minutes=0;
+    segundo=0;
+  }
+  if(hour>=24){
+    hour=0;
+    minutes=0;
+    segundo=0;
+  }
+  lcd.setCursor(11,0);
+  if(hour<10)lcd.print("0");
+  lcd.print(hour);
+  lcd.print(":");
+  if(minutes<10)lcd.print("0");
+  lcd.print(minutes);
+  lcd.print(":");
+  if(segundo<10)lcd.print("0");
+  lcd.print(segundo);
+ }
 }
 
 void keypadEvent(KeypadEvent key) {
