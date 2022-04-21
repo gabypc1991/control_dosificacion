@@ -178,7 +178,7 @@ void menu_3(){
   lcd.setCursor(10,2); lcd.print("D4(");
   lcd.setCursor(13,2); lcd.print(f1D4);
   lcd.setCursor(16,2); lcd.print(")");
-  lcd.setCursor(0,3); lcd.print("Volver <#> Inic. <*>");
+  lcd.setCursor(11,3); lcd.print("Inic. <*>");
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
@@ -195,11 +195,11 @@ void accion_3(){
        int peso_d3;
        int peso_d4;
        lcd.setCursor(0,3);lcd.print("                    ");
-       lcd.setCursor(0,3);lcd.print("Total Kg:");
+       lcd.setCursor(0,3);lcd.print("Bal. Kg:");
         
        while(peso_temp < f1D1) {      
          pulsacion = Teclado1.getKey();
-         lcd.setCursor(9,3);lcd.print(balanza);lcd.print("   ");
+         lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
             peso_temp = balanza;
             peso_d1 = peso_temp;
@@ -258,8 +258,10 @@ void accion_3(){
 /////////////////////Menu_4  //////////////////////////////////
 void menu_4(){ 
   lcd.setCursor(0,0); lcd.print("Formula 1           ");
-  lcd.setCursor(0,1); lcd.print("(D1)<A>   (D2)<B>   ");
-  lcd.setCursor(0,2); lcd.print("(D3)<C>   (D4)<D>   ");
+  lcd.setCursor(0,1); lcd.print("A>D1:");lcd.print(f1D1);
+  lcd.setCursor(10,1); lcd.print("B>D2:");lcd.print(f1D2);
+  lcd.setCursor(0,2); lcd.print("C>D1:");lcd.print(f1D3);
+  lcd.setCursor(10,2); lcd.print("D>D2:");lcd.print(f1D4);
   lcd.setCursor(0,3); lcd.print("Volver >#  Prox. <*>");
 }
 /////////////////////Accion 4 //////////////////////////////
@@ -391,8 +393,10 @@ void accion_4(){
 /////////////////////Menu_5  //////////////////////////////////
 void menu_5(){ 
   lcd.setCursor(0,0); lcd.print("Formula 2           ");
-  lcd.setCursor(0,1); lcd.print("(D1)<A>   (D2)<B>   ");
-  lcd.setCursor(0,2); lcd.print("(D3)<C>   (D4)<D>   ");
+  lcd.setCursor(0,1); lcd.print("A>D1:");lcd.print(f2D1);
+  lcd.setCursor(10,1); lcd.print("B>D2:");lcd.print(f2D2);
+  lcd.setCursor(0,2); lcd.print("C>D1:");lcd.print(f2D3);
+  lcd.setCursor(10,2); lcd.print("D>D2:");lcd.print(f2D4);
   lcd.setCursor(0,3); lcd.print("Volver >#  Prox. <*>");
 }
 /////////////////////Accion 5 //////////////////////////////
