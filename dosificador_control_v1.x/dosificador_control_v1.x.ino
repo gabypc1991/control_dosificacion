@@ -202,7 +202,7 @@ void accion_3(){
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
         
-       while(peso_temp < f1D1) {      
+       while(peso_temp < f1D1 && f1D1 != 0) {      
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -217,7 +217,7 @@ void accion_3(){
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");
       delay(5000);
       
-      while(peso_temp < f1D2){
+      while(peso_temp < f1D2 && f1D2 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -232,7 +232,7 @@ void accion_3(){
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");
       delay(5000);
       
-      while(peso_temp < f1D3){
+      while(peso_temp < f1D3 && f1D3 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -247,7 +247,7 @@ void accion_3(){
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");
       delay(5000);
       
-      while(peso_temp < f1D4){
+      while(peso_temp < f1D4 && f1D4 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
