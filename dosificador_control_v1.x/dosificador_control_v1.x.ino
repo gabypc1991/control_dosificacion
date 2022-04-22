@@ -6,7 +6,9 @@
 float peso = 0;
 int balanza = 0;
 int balanza_bruto = 0;
+int result_bal;
 int tara = 0;
+bool estab_comp = false;
 int f1D1 = 0;
 int f1D2 = 0;
 int f1D3 = 0;
@@ -202,62 +204,60 @@ void accion_3(){
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
         
-       while(peso_temp < f1D1 && f1D1 != 0) {      
+       while(peso_temp < (f1D1 - result_bal) && f1D1 != 0) {      
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
-            peso_temp = balanza;
-            peso_d1 = peso_temp;
-            tiempo += 1;
-            reloj();
-            lcd.setCursor(7,1);lcd.print(peso_d1);
-            delay(100);            
-            }
+         peso_temp = balanza;
+         peso_d1 = peso_temp;
+         if(peso_d1 > (f1D1 / 2) && estab_comp != true){estabilizacion();lcd.setCursor(0,3);lcd.print(result_bal); estab_comp = true;}
+         tiempo += 1;
+         reloj();
+         lcd.setCursor(7,1);lcd.print(peso_d1);
+         delay(100);            
+         }
       peso_temp = 0;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");
-      delay(5000);
+      if(f1D2 != 0){lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);}      
       
       while(peso_temp < f1D2 && f1D2 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
-            peso_temp = balanza - peso_d1;
-            peso_d2 = peso_temp;
-            tiempo += 1;
-            reloj();
-            lcd.setCursor(17,1);lcd.print(peso_d2);
-            delay(100);            
-            }
+         peso_temp = balanza - peso_d1;
+         peso_d2 = peso_temp;
+         tiempo += 1;
+         reloj();
+         lcd.setCursor(17,1);lcd.print(peso_d2);
+         delay(100);            
+         }
       peso_temp = 0;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");
-      delay(5000);
+      if(f1D3 != 0){lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);}
       
       while(peso_temp < f1D3 && f1D3 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
-            peso_temp = balanza - (peso_d1 + peso_d2);
-            peso_d3 = peso_temp;
-            tiempo += 1;
-            reloj();
-            lcd.setCursor(7,2);lcd.print(peso_d3);
-            delay(100);            
-            }     
+         peso_temp = balanza - (peso_d1 + peso_d2);
+         peso_d3 = peso_temp;
+         tiempo += 1;
+         reloj();
+         lcd.setCursor(7,2);lcd.print(peso_d3);
+         delay(100);            
+         }     
       peso_temp = 0;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");
-      delay(5000);
+      if(f1D4 != 0){lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);}
       
       while(peso_temp < f1D4 && f1D4 != 0){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
-            peso_temp = balanza - (peso_d1 + peso_d2 + peso_d3);
-            peso_d4 = peso_temp;
-            tiempo += 1;
-            reloj();
-            lcd.setCursor(17,2);lcd.print(peso_d4);
-            delay(100);            
-            }
+         peso_temp = balanza - (peso_d1 + peso_d2 + peso_d3);
+         peso_d4 = peso_temp;
+         tiempo += 1;
+         reloj();
+         lcd.setCursor(17,2);lcd.print(peso_d4);
+         delay(100);            
+         }
       peso_temp = 0;
       tiempo = 0;
       now = 0;
@@ -268,8 +268,8 @@ void accion_3(){
       proc_comp = true;     
     }
    }else if(pulsacion == '*' && balanza > 5){
-    lcd.setCursor(0,3);lcd.print("err_bal");
-    delay(1000);
+      lcd.setCursor(0,3);lcd.print("err_bal");
+      delay(1000);
     }    
   }
 
@@ -503,6 +503,17 @@ void proceso(){
   int temp_bal = analogRead(A8);
   balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
   balanza = (balanza_bruto - tara);
+  }
+
+void estabilizacion(){
+  int bal_1;
+  int bal_2;
+  
+  bal_1 = balanza;  
+  lcd.setCursor(11,0); lcd.print(" CONTROL ");
+  delay(10000);   
+  bal_2 = balanza;    
+  result_bal = bal_2 - bal_1;
   }
 
 void reloj() {
