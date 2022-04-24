@@ -95,13 +95,9 @@ void setup() {
  pinMode(6, OUTPUT);
 
  f1D1 = EEPROM.read(0);
- f1D1 = f1D1 * 4;
  f1D2 = EEPROM.read(1);
- f1D2 = f1D2 * 4;
  f1D3 = EEPROM.read(2);
- f1D3 = f1D3 * 4;
  f1D4 = EEPROM.read(3);
- f1D4 = f1D4 * 4;
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
@@ -167,7 +163,9 @@ void accion_2(){
 }
 
 /////////////////////Menu_3  //////////////////////////////////
-void menu_3(){ 
+void menu_3(){
+  pos_col = 11;
+  pos_fil = 0; 
   lcd.setCursor(0,0); lcd.print("Form.1   t:");
   lcd.setCursor(0,1); lcd.print("D1(");
   lcd.setCursor(3,1); lcd.print(f1D1);
@@ -215,9 +213,9 @@ void accion_3(){
          reloj();
          lcd.setCursor(7,1);lcd.print(peso_d1);
          delay(100);            
-         }
-      peso_temp = 0;
-      if(f1D2 != 0){lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);}      
+         }      
+      if(f1D2 != 0){lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);}   
+      peso_temp = 0;   
       
       while(peso_temp < f1D2 && f1D2 != 0){
          pulsacion = Teclado1.getKey();
@@ -304,7 +302,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D1 = myString.toInt();
-        EEPROM.write(0, f1D1/4);        
+        EEPROM.write(0, f1D1);        
         lcd.setCursor(11,2); lcd.print(f1D1);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);               
@@ -332,7 +330,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D2 = myString.toInt();        
-        EEPROM.write(1, f1D2/4);          
+        EEPROM.write(1, f1D2);          
         lcd.setCursor(11,2); lcd.print(f1D2);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -361,7 +359,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D3 = myString.toInt();        
-        EEPROM.write(2, f1D3/4);       
+        EEPROM.write(2, f1D3);       
         lcd.setCursor(11,2); lcd.print(f1D3);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -390,7 +388,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D4 = myString.toInt();        
-        EEPROM.write(3, f1D4/4);        
+        EEPROM.write(3, f1D4);        
         lcd.setCursor(11,2); lcd.print(f1D4);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -485,6 +483,21 @@ void accion_5(){
         if(pulsacion == '*') {tara = balanza_bruto;}                
     }
 
+    void menu_7(){     
+      pos_col = 6;
+      pos_fil = 2;
+      lcd.setCursor(0,0); lcd.print("      MEZCLADO      ");
+      lcd.setCursor(0,1); lcd.print("       Tiempo       ");
+      lcd.setCursor(0,2); lcd.print("      00:00:00      ");
+      lcd.setCursor(0,3); lcd.print("Parar <*> Volver <#>");
+          
+    }
+/////////////////////////Accion_4_1 //////////////////////////////
+    void accion_7(){         
+        if(pulsacion == '#') {contador = 4;lcd.clear();}
+                
+    }
+
 String readVal(){
   myString = "";
   char keyPressed = Teclado1.getKey();
@@ -534,7 +547,7 @@ void reloj() {
     minutes=0;
     segundo=0;
   }
-  lcd.setCursor(11,0);
+  lcd.setCursor(pos_col,pos_fil);
   if(hour<10)lcd.print("0");
   lcd.print(hour);
   lcd.print(":");
