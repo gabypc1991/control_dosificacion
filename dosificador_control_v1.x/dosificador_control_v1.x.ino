@@ -2,6 +2,7 @@
 #include <Keypad.h>
 #include <TimerOne.h>
 #include <EEPROM.h>
+#include "HX711.h"
 
 float peso = 0;
 int balanza = 0;
@@ -9,6 +10,8 @@ int balanza_bruto = 0;
 int result_bal;
 int tara = 0;
 bool estab_comp = false;
+int t_mezcla = 150;
+
 int f1D1 = 0;
 int f1D2 = 0;
 int f1D3 = 0;
@@ -47,6 +50,9 @@ int minutes = 0;
 int hour = 0;
 int segundo = 0;
 
+const int DOUT=A1;
+const int CLK=A0;
+
 int  contador = 1;    // cuenta el nivel del menu en el que se esta
 const byte ROWS = 4;  //Cuatro Filas
 const byte COLS = 4;  //Cuatro Columnas 
@@ -77,6 +83,7 @@ char letters[14] [4] = {
 byte rowPins[ROWS] = {52,50,48,46}; //Puntos de conexion del teclado al arduino FILAS
 byte colPins[COLS] = {44,42,40,38}; //Puntos de conexion del teclado al arduino COLUMNAS
 
+HX711 balanza_hx;
 Keypad Teclado1 = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS ); //Configura el teclado
 LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codigo 0x27 cambiar a
                                   // 0x3F , 0x20 , 0x38 , 
@@ -84,6 +91,7 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
 ////////////////////////////////// Void Setup() ///////////
 void setup() {
  Serial.begin(9600);
+ 
  Timer1.initialize(100000);
  Timer1.attachInterrupt(proceso);
  lcd.init();
@@ -101,6 +109,9 @@ void setup() {
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
+ //balanza_hx.begin(DOUT, CLK);
+ //balanza_hx.set_scale(439430.25);
+ //balanza_hx.tare(20);
 } 
 ////////////////////////// Void loop() ///////////////////////
 void loop() {
@@ -109,6 +120,7 @@ void loop() {
     lcd.clear();
     delay(100);
  }
+ if(contador == 16){ menu_1_2();accion_1_2();}
  if(contador == 15){ menu_7();accion_7();}
  if(contador == 14){ menu_6();accion_6();} 
  if(contador == 13){ menu_5_4();accion_5_4();}
@@ -141,13 +153,26 @@ void menu_1(){
    lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
    lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
    lcd.setCursor(0,2); lcd.print("BALANZA           >3");
-   lcd.setCursor(0,3); lcd.print("Mas...            >4");
+   lcd.setCursor(0,3); lcd.print("Mas... <*>");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1(){ 
   if(pulsacion == '1') {contador = 2;lcd.clear();}
   if(pulsacion == '2') {contador = 4;lcd.clear();}
   if(pulsacion == '3') {contador = 14;lcd.clear();}
+  if(pulsacion == '*') {contador = 16;lcd.clear();}
+}
+
+void menu_1_2(){ 
+   lcd.setCursor(0,0); lcd.print("MEZCLADO          >1");
+   lcd.setCursor(0,1); lcd.print("PARAMETROS        >2");
+   lcd.setCursor(0,3); lcd.print("Volver <#>");
+}
+/////////////////////Accion 1 //////////////////////////////
+void accion_1_2(){ 
+  if(pulsacion == '1') {contador = 15;lcd.clear();}
+  if(pulsacion == '2') {contador = 1;lcd.clear();}
+  if(pulsacion == '#') {contador = 1;lcd.clear();}
 }
 
 /////////////////////Menu_2  //////////////////////////////////
@@ -236,7 +261,7 @@ void accion_3(){
          }
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d2 = balanza - peso_d1;
-      lcd.setCursor(7,1);lcd.print(peso_d2); 
+      lcd.setCursor(17,1);lcd.print(peso_d2);
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -255,7 +280,7 @@ void accion_3(){
          }
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d3 = balanza - (peso_d1 + peso_d2);
-      lcd.setCursor(7,1);lcd.print(peso_d2); 
+      lcd.setCursor(7,2);lcd.print(peso_d3);
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -273,8 +298,8 @@ void accion_3(){
          delay(100);            
          }
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
-      peso_d3 = balanza - (peso_d1 + peso_d2);
-      lcd.setCursor(7,1);lcd.print(peso_d2); 
+      peso_d4 = balanza - (peso_d1 + peso_d2 + peso_d3);
+      lcd.setCursor(17,2);lcd.print(peso_d4);
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -282,7 +307,20 @@ void accion_3(){
       now = 0;
       hour=0;
       minutes=0;
-      segundo=0;      
+      segundo=0;
+      
+      lcd.setCursor(0,3);lcd.print("Mezcla..   Parar <#>"); 
+      while(tiempo < t_mezcla){
+        tiempo += 1;
+        reloj();
+        delay(100);
+        }
+        
+      tiempo = 0;
+      now = 0;
+      hour=0;
+      minutes=0;
+      segundo=0;          
       proc_activo = false;
       proc_comp = true;
     }
@@ -504,18 +542,32 @@ void accion_5(){
         if(pulsacion == '*') {tara = balanza_bruto;}                
     }
 
-    void menu_7(){     
-      pos_col = 6;
+    void menu_7(){      
+      pos_col = 11;
       pos_fil = 2;
-      lcd.setCursor(0,0); lcd.print("      MEZCLADO      ");
-      lcd.setCursor(0,1); lcd.print("       Tiempo       ");
-      lcd.setCursor(0,2); lcd.print("      00:00:00      ");
-      lcd.setCursor(0,3); lcd.print("Parar <*> Volver <#>");
+      lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
+      lcd.setCursor(0,1); lcd.print("                     ");
+      lcd.setCursor(0,2); lcd.print("Minutos:");
+      lcd.setCursor(11,2); lcd.print(t_mezcla);
+
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal();
+        edit = true;
+        t_mezcla = myString.toInt();   
+        lcd.setCursor(11,2); lcd.print(t_mezcla);
+        lcd.setCursor(0,3); lcd.print("CORRECTO");
+        delay(800);
+          
+        }
+        edit = false;
+        contador = 16;
+        lcd.clear();
           
     }
 /////////////////////////Accion_4_1 //////////////////////////////
     void accion_7(){         
-        if(pulsacion == '#') {contador = 4;lcd.clear();}
+       // if(pulsacion == '#') {contador = 4;lcd.clear();}
                 
     }
 
@@ -537,6 +589,8 @@ void proceso(){
   int temp_bal = analogRead(A8);
   balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
   balanza = (balanza_bruto - tara);
+
+  //balanza = balanza_hx.get_units(20);
   }
 
 void estabilizacion(){
