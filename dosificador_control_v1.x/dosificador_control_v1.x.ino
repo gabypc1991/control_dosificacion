@@ -59,6 +59,10 @@ int now = 0;
 int minutes = 0;
 int hour = 0;
 int segundo = 0;
+bool act_d1 = false;
+bool act_d2 = false;
+bool act_d3 = false;
+bool act_d4 = false; 
 
 const int DOUT=A1;
 const int CLK=A0;
@@ -146,6 +150,7 @@ void loop() {
     lcd.clear();
     delay(100);
  }
+ if(contador == 17){ menu_8();accion_8();}
  if(contador == 16){ menu_1_2();accion_1_2();}
  if(contador == 15){ menu_7();accion_7();}
  if(contador == 14){ menu_6();accion_6();} 
@@ -192,13 +197,14 @@ void accion_1(){
 void menu_1_2(){ 
    lcd.setCursor(0,0); lcd.print("MEZCLADO          >1");
    lcd.setCursor(0,1); lcd.print("PARAMETROS        >2");
-   lcd.setCursor(0,1); lcd.print("CONTROL MANUAL    >3");
+   lcd.setCursor(0,2); lcd.print("CONTROL MANUAL    >3");
    lcd.setCursor(0,3); lcd.print("Volver <#>");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1_2(){ 
   if(pulsacion == '1') {contador = 15;lcd.clear();}
   if(pulsacion == '2') {contador = 1;lcd.clear();}
+  if(pulsacion == '3') {contador = 17;lcd.clear();}
   if(pulsacion == '#') {contador = 1;lcd.clear();}
 }
 
@@ -605,6 +611,32 @@ void accion_5(){
 /////////////////////////Accion_4_1 //////////////////////////////
     void accion_7(){         
        // if(pulsacion == '#') {contador = 4;lcd.clear();}
+                
+    }
+
+ void menu_8(){     
+      lcd.setCursor(0,0); lcd.print("D1|D2|D3|D4|>SALIDA ");      
+      lcd.setCursor(0,2); lcd.print("I1|I2|I3|I4|<ENTRADA");
+      lcd.setCursor(12,3); lcd.print("Volv.<*>");
+          
+    }
+/////////////////////////Accion_4_1 //////////////////////////////
+    void accion_8(){
+                
+       if(pulsacion == '*') {contador = 16;lcd.clear();}
+       if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, HIGH); act_d1 = true;
+       }else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, LOW); act_d1 = false;}
+       if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, HIGH); act_d2 = true;
+       }else if(pulsacion == '2' && act_d2 == true){digitalWrite(pin_d2, LOW); act_d2 = false;}
+       if(pulsacion == '3' && act_d3 == false) {digitalWrite(pin_d3, HIGH); act_d3 = true;
+       }else if(pulsacion == '3' && act_d3 == true){digitalWrite(pin_d3, LOW); act_d3 = false;}
+       if(pulsacion == '4' && act_d4 == false) {digitalWrite(pin_d4, HIGH); act_d4 = true;
+       }else if(pulsacion == '4' && act_d4 == true){digitalWrite(pin_d4, LOW); act_d4 = false;}
+
+       if(act_d1 == true){lcd.setCursor(0,1); lcd.print("X |");}else{lcd.setCursor(0,1); lcd.print("  |");}
+       if(act_d2 == true){lcd.setCursor(3,1); lcd.print("X |");}else{lcd.setCursor(3,1); lcd.print("  |");}
+       if(act_d3 == true){lcd.setCursor(6,1); lcd.print("X |");}else{lcd.setCursor(6,1); lcd.print("  |");}
+       if(act_d4 == true){lcd.setCursor(9,1); lcd.print("X |");}else{lcd.setCursor(9,1); lcd.print("  |");}
                 
     }
 
