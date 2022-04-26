@@ -4,6 +4,16 @@
 #include <EEPROM.h>
 #include "HX711.h"
 
+const int pin_d1 = 4;
+const int pin_d2 = 5;
+const int pin_d3 = 6;
+const int pin_d4 = 7;
+const int pin_mezcla = 8;
+const int in_1 = 9;
+const int in_2 = 10;
+const int in_3 = 11;
+const int in_4 = 12;
+
 float peso = 0;
 int balanza = 0;
 int balanza_bruto = 0;
@@ -106,6 +116,22 @@ void setup() {
  f1D2 = EEPROM.read(1);
  f1D3 = EEPROM.read(2);
  f1D4 = EEPROM.read(3);
+
+ pinMode(pin_d1, OUTPUT);
+ pinMode(pin_d2, OUTPUT);
+ pinMode(pin_d3, OUTPUT);
+ pinMode(pin_d4, OUTPUT);
+ pinMode(pin_mezcla, OUTPUT);
+ pinMode(in_1, INPUT_PULLUP);
+ pinMode(in_2, INPUT_PULLUP);
+ pinMode(in_3, INPUT_PULLUP);
+ pinMode(in_4, INPUT_PULLUP);
+
+ digitalWrite(pin_d1, LOW);
+ digitalWrite(pin_d2, LOW);
+ digitalWrite(pin_d3, LOW);
+ digitalWrite(pin_d4, LOW);
+ digitalWrite(pin_mezcla, LOW);
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
@@ -166,6 +192,7 @@ void accion_1(){
 void menu_1_2(){ 
    lcd.setCursor(0,0); lcd.print("MEZCLADO          >1");
    lcd.setCursor(0,1); lcd.print("PARAMETROS        >2");
+   lcd.setCursor(0,1); lcd.print("CONTROL MANUAL    >3");
    lcd.setCursor(0,3); lcd.print("Volver <#>");
 }
 /////////////////////Accion 1 //////////////////////////////
@@ -234,12 +261,14 @@ void accion_3(){
          if(pulsacion == '#') break;
          peso_temp = balanza;
          peso_d1 = peso_temp;
-         if(peso_d1 > (f1D1 / 2) && estab_comp != true){estabilizacion(); estab_comp = true;}
+         if(peso_d1 > (f1D1 / 2) && estab_comp != true){digitalWrite(pin_d1, LOW);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d1, HIGH);
          tiempo += 1;
          reloj();
          lcd.setCursor(7,1);lcd.print(peso_d1);
          delay(100);            
-         }            
+         }
+      digitalWrite(pin_d1, LOW);            
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -253,12 +282,14 @@ void accion_3(){
          if(pulsacion == '#') break;
          peso_temp = balanza - peso_d1;
          peso_d2 = peso_temp;
-         if(peso_d2 > (f1D2 / 2) && estab_comp != true){estabilizacion(); estab_comp = true;}
+         if(peso_d2 > (f1D2 / 2) && estab_comp != true){digitalWrite(pin_d2, LOW);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d2, HIGH);
          tiempo += 1;
          reloj();
          lcd.setCursor(17,1);lcd.print(peso_d2);
          delay(100);            
          }
+      digitalWrite(pin_d2, LOW);
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(17,1);lcd.print(peso_d2);
@@ -272,12 +303,14 @@ void accion_3(){
          if(pulsacion == '#') break;
          peso_temp = balanza - (peso_d1 + peso_d2);
          peso_d3 = peso_temp;
-         if(peso_d3 > (f1D3 / 2) && estab_comp != true){estabilizacion(); estab_comp = true;}
+         if(peso_d3 > (f1D3 / 2) && estab_comp != true){digitalWrite(pin_d3, LOW);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d3, HIGH);
          tiempo += 1;
          reloj();
          lcd.setCursor(7,2);lcd.print(peso_d3);
          delay(100);            
          }
+      digitalWrite(pin_d3, LOW);
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d3 = balanza - (peso_d1 + peso_d2);
       lcd.setCursor(7,2);lcd.print(peso_d3);
@@ -291,12 +324,14 @@ void accion_3(){
          if(pulsacion == '#') break;
          peso_temp = balanza - (peso_d1 + peso_d2 + peso_d3);
          peso_d4 = peso_temp;
-         if(peso_d4 > (f1D4 / 2) && estab_comp != true){estabilizacion(); estab_comp = true;}
+         if(peso_d4 > (f1D4 / 2) && estab_comp != true){digitalWrite(pin_d4, LOW);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d4, HIGH);
          tiempo += 1;
          reloj();
          lcd.setCursor(17,2);lcd.print(peso_d4);
          delay(100);            
          }
+      digitalWrite(pin_d4, LOW);
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d4 = balanza - (peso_d1 + peso_d2 + peso_d3);
       lcd.setCursor(17,2);lcd.print(peso_d4);
@@ -311,10 +346,12 @@ void accion_3(){
       
       lcd.setCursor(0,3);lcd.print("Mezcla..   Parar <#>"); 
       while(tiempo < t_mezcla){
+        digitalWrite(pin_mezcla, HIGH);
         tiempo += 1;
         reloj();
         delay(100);
         }
+      digitalWrite(pin_mezcla, LOW);
         
       tiempo = 0;
       now = 0;
@@ -596,7 +633,7 @@ void proceso(){
 void estabilizacion(){
   int bal_1;
   int bal_2;
-  
+    
   bal_1 = balanza;  
   lcd.setCursor(11,0); lcd.print(" CONTROL ");
   delay(10000);   
