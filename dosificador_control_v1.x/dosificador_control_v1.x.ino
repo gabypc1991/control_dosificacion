@@ -2,7 +2,7 @@
 #include <Keypad.h>
 #include <TimerOne.h>
 #include <EEPROM.h>
-#include "HX711.h"
+#include <HX711.h>
 
 const int pin_d1 = 4;
 const int pin_d2 = 5;
@@ -62,7 +62,11 @@ int segundo = 0;
 bool act_d1 = false;
 bool act_d2 = false;
 bool act_d3 = false;
-bool act_d4 = false; 
+bool act_d4 = false;
+bool act_in1 = false;
+bool act_in2 = false;
+bool act_in3 = false;
+bool act_in4 = false;  
 
 const int DOUT=A1;
 const int CLK=A0;
@@ -268,13 +272,13 @@ void accion_3(){
          peso_temp = balanza;
          peso_d1 = peso_temp;
          if(peso_d1 > (f1D1 / 2) && estab_comp != true){digitalWrite(pin_d1, LOW);estabilizacion(); estab_comp = true;}
-         digitalWrite(pin_d1, HIGH);
+         digitalWrite(pin_d1, HIGH); act_d1 = true;
          tiempo += 1;
          reloj();
          lcd.setCursor(7,1);lcd.print(peso_d1);
          delay(100);            
          }
-      digitalWrite(pin_d1, LOW);            
+      digitalWrite(pin_d1, LOW); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -289,13 +293,13 @@ void accion_3(){
          peso_temp = balanza - peso_d1;
          peso_d2 = peso_temp;
          if(peso_d2 > (f1D2 / 2) && estab_comp != true){digitalWrite(pin_d2, LOW);estabilizacion(); estab_comp = true;}
-         digitalWrite(pin_d2, HIGH);
+         digitalWrite(pin_d2, HIGH); act_d2 = true;
          tiempo += 1;
          reloj();
          lcd.setCursor(17,1);lcd.print(peso_d2);
          delay(100);            
          }
-      digitalWrite(pin_d2, LOW);
+      digitalWrite(pin_d2, LOW); act_d2 = false;
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(17,1);lcd.print(peso_d2);
@@ -310,13 +314,13 @@ void accion_3(){
          peso_temp = balanza - (peso_d1 + peso_d2);
          peso_d3 = peso_temp;
          if(peso_d3 > (f1D3 / 2) && estab_comp != true){digitalWrite(pin_d3, LOW);estabilizacion(); estab_comp = true;}
-         digitalWrite(pin_d3, HIGH);
+         digitalWrite(pin_d3, HIGH); act_d3 = true;
          tiempo += 1;
          reloj();
          lcd.setCursor(7,2);lcd.print(peso_d3);
          delay(100);            
          }
-      digitalWrite(pin_d3, LOW);
+      digitalWrite(pin_d3, LOW); act_d3 = false;
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d3 = balanza - (peso_d1 + peso_d2);
       lcd.setCursor(7,2);lcd.print(peso_d3);
@@ -331,13 +335,13 @@ void accion_3(){
          peso_temp = balanza - (peso_d1 + peso_d2 + peso_d3);
          peso_d4 = peso_temp;
          if(peso_d4 > (f1D4 / 2) && estab_comp != true){digitalWrite(pin_d4, LOW);estabilizacion(); estab_comp = true;}
-         digitalWrite(pin_d4, HIGH);
+         digitalWrite(pin_d4, HIGH); act_d4 = true;
          tiempo += 1;
          reloj();
          lcd.setCursor(17,2);lcd.print(peso_d4);
          delay(100);            
          }
-      digitalWrite(pin_d4, LOW);
+      digitalWrite(pin_d4, LOW); act_d4 = false;
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
       peso_d4 = balanza - (peso_d1 + peso_d2 + peso_d3);
       lcd.setCursor(17,2);lcd.print(peso_d4);
@@ -633,10 +637,15 @@ void accion_5(){
        if(pulsacion == '4' && act_d4 == false) {digitalWrite(pin_d4, HIGH); act_d4 = true;
        }else if(pulsacion == '4' && act_d4 == true){digitalWrite(pin_d4, LOW); act_d4 = false;}
 
-       if(act_d1 == true){lcd.setCursor(0,1); lcd.print("X |");}else{lcd.setCursor(0,1); lcd.print("  |");}
-       if(act_d2 == true){lcd.setCursor(3,1); lcd.print("X |");}else{lcd.setCursor(3,1); lcd.print("  |");}
-       if(act_d3 == true){lcd.setCursor(6,1); lcd.print("X |");}else{lcd.setCursor(6,1); lcd.print("  |");}
-       if(act_d4 == true){lcd.setCursor(9,1); lcd.print("X |");}else{lcd.setCursor(9,1); lcd.print("  |");}
+       if(act_d1 == true){lcd.setCursor(0,1); lcd.print("->|");}else{lcd.setCursor(0,1); lcd.print("  |");}
+       if(act_d2 == true){lcd.setCursor(3,1); lcd.print("->|");}else{lcd.setCursor(3,1); lcd.print("  |");}
+       if(act_d3 == true){lcd.setCursor(6,1); lcd.print("->|");}else{lcd.setCursor(6,1); lcd.print("  |");}
+       if(act_d4 == true){lcd.setCursor(9,1); lcd.print("->|");}else{lcd.setCursor(9,1); lcd.print("  |");}
+
+       if(act_in1 == true){lcd.setCursor(0,3); lcd.print("<-|");}else{lcd.setCursor(0,3); lcd.print("  |");}
+       if(act_in2 == true){lcd.setCursor(3,3); lcd.print("<-|");}else{lcd.setCursor(3,3); lcd.print("  |");}
+       if(act_in3 == true){lcd.setCursor(6,3); lcd.print("<-|");}else{lcd.setCursor(6,3); lcd.print("  |");}
+       if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
                 
     }
 
@@ -660,6 +669,10 @@ void proceso(){
   balanza = (balanza_bruto - tara);
 
   //balanza = balanza_hx.get_units(20);
+  act_in1 != digitalRead(in_1);
+  act_in2 != digitalRead(in_2);
+  act_in3 != digitalRead(in_3);
+  act_in4 != digitalRead(in_4);
   }
 
 void estabilizacion(){
