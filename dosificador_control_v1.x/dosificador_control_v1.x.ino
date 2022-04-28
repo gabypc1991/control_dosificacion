@@ -66,10 +66,13 @@ bool act_d4 = false;
 bool act_in1 = false;
 bool act_in2 = false;
 bool act_in3 = false;
-bool act_in4 = false;  
+bool act_in4 = false;
+bool buttonState = false;
+bool lastButtonState;
+bool salida;  
 
-const int DOUT=A1;
-const int CLK=A0;
+const int DOUT=A10;
+const int CLK=A9;
 
 int  contador = 1;    // cuenta el nivel del menu en el que se esta
 const byte ROWS = 4;  //Cuatro Filas
@@ -143,9 +146,9 @@ void setup() {
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
- //balanza_hx.begin(DOUT, CLK);
- //balanza_hx.set_scale(439430.25);
- //balanza_hx.tare(20);
+ balanza_hx.begin(DOUT, CLK);
+ balanza_hx.set_scale(439430.25);
+ balanza_hx.tare(20);
 } 
 ////////////////////////// Void loop() ///////////////////////
 void loop() {
@@ -153,7 +156,7 @@ void loop() {
  if (pulsacion != 0) {      
     lcd.clear();
     delay(100);
- }
+ } 
  if(contador == 17){ menu_8();accion_8();}
  if(contador == 16){ menu_1_2();accion_1_2();}
  if(contador == 15){ menu_7();accion_7();}
@@ -201,7 +204,7 @@ void accion_1(){
 void menu_1_2(){ 
    lcd.setCursor(0,0); lcd.print("MEZCLADO          >1");
    lcd.setCursor(0,1); lcd.print("PARAMETROS        >2");
-   lcd.setCursor(0,2); lcd.print("CONTROL MANUAL    >3");
+   lcd.setCursor(0,2); lcd.print("ESTADO IO         >3");
    lcd.setCursor(0,3); lcd.print("Volver <#>");
 }
 /////////////////////Accion 1 //////////////////////////////
@@ -352,22 +355,7 @@ void accion_3(){
       now = 0;
       hour=0;
       minutes=0;
-      segundo=0;
-      
-      lcd.setCursor(0,3);lcd.print("Mezcla..   Parar <#>"); 
-      while(tiempo < t_mezcla){
-        digitalWrite(pin_mezcla, HIGH);
-        tiempo += 1;
-        reloj();
-        delay(100);
-        }
-      digitalWrite(pin_mezcla, LOW);
-        
-      tiempo = 0;
-      now = 0;
-      hour=0;
-      minutes=0;
-      segundo=0;          
+      segundo=0;             
       proc_activo = false;
       proc_comp = true;
     }
@@ -584,9 +572,10 @@ void accion_5(){
       lcd.setCursor(0,3); lcd.print("          Volver <#>");            
     }
 /////////////////////////Accion_6 //////////////////////////////
-    void accion_6(){         
+    void accion_6(){
+        balanza = balanza_hx.get_units();         
         if(pulsacion == '#') {contador = 1;lcd.clear();}
-        if(pulsacion == '*') {tara = balanza_bruto;}                
+        if(pulsacion == '*') {balanza_hx.tare(20);}                
     }
 
     void menu_7(){      
@@ -628,14 +617,14 @@ void accion_5(){
     void accion_8(){
                 
        if(pulsacion == '*') {contador = 16;lcd.clear();}
-       if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, HIGH); act_d1 = true;
-       }else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, LOW); act_d1 = false;}
-       if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, HIGH); act_d2 = true;
-       }else if(pulsacion == '2' && act_d2 == true){digitalWrite(pin_d2, LOW); act_d2 = false;}
-       if(pulsacion == '3' && act_d3 == false) {digitalWrite(pin_d3, HIGH); act_d3 = true;
-       }else if(pulsacion == '3' && act_d3 == true){digitalWrite(pin_d3, LOW); act_d3 = false;}
-       if(pulsacion == '4' && act_d4 == false) {digitalWrite(pin_d4, HIGH); act_d4 = true;
-       }else if(pulsacion == '4' && act_d4 == true){digitalWrite(pin_d4, LOW); act_d4 = false;}
+       //if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, HIGH); act_d1 = true;
+       //}else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, LOW); act_d1 = false;}
+       //if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, HIGH); act_d2 = true;
+       //}else if(pulsacion == '2' && act_d2 == true){digitalWrite(pin_d2, LOW); act_d2 = false;}
+       //if(pulsacion == '3' && act_d3 == false) {digitalWrite(pin_d3, HIGH); act_d3 = true;
+       //}else if(pulsacion == '3' && act_d3 == true){digitalWrite(pin_d3, LOW); act_d3 = false;}
+       //if(pulsacion == '4' && act_d4 == false) {digitalWrite(pin_d4, HIGH); act_d4 = true;
+       //}else if(pulsacion == '4' && act_d4 == true){digitalWrite(pin_d4, LOW); act_d4 = false;}
 
        if(act_d1 == true){lcd.setCursor(0,1); lcd.print("->|");}else{lcd.setCursor(0,1); lcd.print("  |");}
        if(act_d2 == true){lcd.setCursor(3,1); lcd.print("->|");}else{lcd.setCursor(3,1); lcd.print("  |");}
@@ -648,6 +637,39 @@ void accion_5(){
        if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
                 
     }
+
+void mezclador(){
+      pos_col = 3;
+      pos_fil = 2;
+      lcd.setCursor(0,0); lcd.print("                    ");     
+      lcd.setCursor(0,1); lcd.print("     Mezclando...   ");  
+      lcd.setCursor(0,2); lcd.print("                    ");
+      lcd.setCursor(0,3); lcd.print("           Parar <O>"); 
+      while(tiempo < t_mezcla){
+        digitalWrite(pin_mezcla, HIGH);
+        tiempo += 1;
+        reloj();
+        delay(100);
+        }
+      digitalWrite(pin_mezcla, LOW);
+      tiempo = 0;
+      now = 0;
+      hour=0;
+      minutes=0;
+      segundo=0;
+      contador = 1;   
+  }
+
+void status_IO(){  
+  buttonState = digitalRead(in_1);
+  if (buttonState != lastButtonState) {
+    if (buttonState == HIGH) {
+      salida = true;
+    } else {
+      salida = false;
+    }
+  }
+}
 
 String readVal(){
   myString = "";
@@ -664,15 +686,17 @@ String readVal(){
   }
 
 void proceso(){
-  int temp_bal = analogRead(A8);
-  balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
-  balanza = (balanza_bruto - tara);
+  
+  //int temp_bal = analogRead(A8);
+  //balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
+  //balanza = (balanza_bruto - tara);
 
-  //balanza = balanza_hx.get_units(20);
+  
   act_in1 != digitalRead(in_1);
   act_in2 != digitalRead(in_2);
   act_in3 != digitalRead(in_3);
   act_in4 != digitalRead(in_4);
+  status_IO();
   }
 
 void estabilizacion(){
