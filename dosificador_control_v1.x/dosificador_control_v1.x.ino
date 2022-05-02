@@ -112,7 +112,9 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
 ////////////////////////////////// Void Setup() ///////////
 void setup() {
  Serial.begin(9600);
- 
+ balanza_hx.begin(DOUT, CLK);
+ balanza_hx.set_scale(439430.25);
+ balanza_hx.tare(20); 
  Timer1.initialize(100000);
  Timer1.attachInterrupt(proceso);
  lcd.init();
@@ -146,9 +148,7 @@ void setup() {
  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
- balanza_hx.begin(DOUT, CLK);
- balanza_hx.set_scale(439430.25);
- balanza_hx.tare(20);
+
 } 
 ////////////////////////// Void loop() ///////////////////////
 void loop() {
@@ -572,8 +572,7 @@ void accion_5(){
       lcd.setCursor(0,3); lcd.print("          Volver <#>");            
     }
 /////////////////////////Accion_6 //////////////////////////////
-    void accion_6(){
-        balanza = balanza_hx.get_units();         
+    void accion_6(){                 
         if(pulsacion == '#') {contador = 1;lcd.clear();}
         if(pulsacion == '*') {balanza_hx.tare(20);}                
     }
@@ -691,7 +690,7 @@ void proceso(){
   //balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
   //balanza = (balanza_bruto - tara);
 
-  
+  balanza = balanza_hx.get_units();
   act_in1 != digitalRead(in_1);
   act_in2 != digitalRead(in_2);
   act_in3 != digitalRead(in_3);
