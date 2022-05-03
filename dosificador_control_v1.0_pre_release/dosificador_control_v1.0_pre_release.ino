@@ -14,7 +14,11 @@ const int in_2 = 24;
 const int in_3 = 22;
 const int in_4 = 4;
 
-float peso = 0;
+String pass_temp = "";
+bool user = false;
+
+float factor = -7050.0;
+float factor_temp = -7050.0;
 int balanza = 0;
 int balanza_bruto = 0;
 int result_bal;
@@ -115,7 +119,7 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
 void setup() {
  Serial.begin(9600);
  balanza_hx.begin(DOUT, CLK);
- balanza_hx.set_scale(439430.25);
+ balanza_hx.set_scale(factor);
  balanza_hx.tare(20); 
  Timer1.initialize(100000);
  Timer1.attachInterrupt(proceso);
@@ -153,7 +157,9 @@ void loop() {
  if (pulsacion != 0) {      
     lcd.clear();
     delay(100);
- } 
+ }
+ if(contador == 19){ menu_9();accion_9();}
+ if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}
  if(contador == 16){ menu_1_2();accion_1_2();}
  if(contador == 15){ menu_7();accion_7();}
@@ -187,28 +193,27 @@ void intro_0(){
 void menu_1(){ 
    lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
    lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
-   lcd.setCursor(0,2); lcd.print("BALANZA           >3");
+   lcd.setCursor(0,2); lcd.print("MEZCLADO          >3");
    lcd.setCursor(0,3); lcd.print("Mas... <*>");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1(){ 
   if(pulsacion == '1') {contador = 2;lcd.clear();}
   if(pulsacion == '2') {contador = 4;lcd.clear();}
-  if(pulsacion == '3') {contador = 14;lcd.clear();}
+  if(pulsacion == '3') {contador = 15;lcd.clear();}
   if(pulsacion == '*') {contador = 16;lcd.clear();}
 }
 
 void menu_1_2(){ 
-   lcd.setCursor(0,0); lcd.print("MEZCLADO          >1");
-   lcd.setCursor(0,1); lcd.print("PARAMETROS        >2");
-   lcd.setCursor(0,2); lcd.print("ESTADO IO         >3");
+   lcd.setCursor(0,0); lcd.print("BALANZA           >1");
+   lcd.setCursor(0,1); lcd.print("AJUSTES           >2");
+   lcd.setCursor(0,2); lcd.print("                    ");
    lcd.setCursor(0,3); lcd.print("Volver <#>");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1_2(){ 
-  if(pulsacion == '1') {contador = 15;lcd.clear();}
-  if(pulsacion == '2') {contador = 1;lcd.clear();}
-  if(pulsacion == '3') {contador = 17;lcd.clear();}
+  if(pulsacion == '1') {contador = 14;lcd.clear();}
+  if(pulsacion == '2') {contador = 19;lcd.clear();}
   if(pulsacion == '#') {contador = 1;lcd.clear();}
 }
 
@@ -593,7 +598,7 @@ void accion_5(){
           
         }
         edit = false;
-        contador = 16;
+        contador = 1;
         lcd.clear();
           
     }
@@ -606,13 +611,13 @@ void accion_5(){
  void menu_8(){     
       lcd.setCursor(0,0); lcd.print("D1|D2|D3|D4|>SALIDA ");      
       lcd.setCursor(0,2); lcd.print("I1|I2|I3|I4|<ENTRADA");
-      lcd.setCursor(12,3); lcd.print("Volv.<*>");
+      lcd.setCursor(12,3); lcd.print("Volv.<#>");
           
     }
 /////////////////////////Accion_4_1 //////////////////////////////
     void accion_8(){
                 
-       if(pulsacion == '*') {contador = 16;lcd.clear();}
+       if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();}
        if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, LOW); act_d1 = true;
        }else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, HIGH); act_d1 = false;}
        if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, LOW); act_d2 = true;
@@ -633,6 +638,69 @@ void accion_5(){
        if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
                 
     }
+
+void menu_9(){ 
+   String pass = "1234";
+   if(user != true){
+    pos_col = 4;
+    pos_fil = 1;
+    lcd.setCursor(0,0); lcd.print("PASSWORD");
+    lcd.setCursor(0,1); lcd.print("-->");
+    lcd.setCursor(0,3); lcd.print("Enter <#>");
+    readVal();
+    pass_temp = myString;
+    user = true;
+    }
+   
+   if(pass_temp == pass && user == true){
+    lcd.setCursor(0,0); lcd.print("CALIBRAR BALANZA  >A");
+    lcd.setCursor(0,1); lcd.print("ESTADO IO         >B");
+    lcd.setCursor(0,2); lcd.print("                    ");
+    lcd.setCursor(0,3); lcd.print("Volver <#>");
+    }else{
+    lcd.setCursor(0,2); lcd.print("error");
+    delay(800);
+    user = false;
+    pass_temp = "";
+    contador = 1;  
+    }
+   
+   
+}
+/////////////////////Accion 1 //////////////////////////////
+void accion_9(){ 
+  if(pulsacion == 'A') {contador = 18;lcd.clear();}
+  if(pulsacion == 'B') {contador = 17;lcd.clear();}
+  if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();}
+}
+
+void calibrar_balanza(){ 
+      lcd.setCursor(0,0); lcd.print("Factor:");
+      lcd.setCursor(0,1); lcd.print("COLOQUE PESO DE REF.");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(0,3); lcd.print("1>+ | 2>-  Enter <#>");            
+    }
+
+void accion_calibrar(){
+  balanza_hx.set_scale(factor_temp);        
+  
+  lcd.setCursor(11,2); lcd.print(balanza);lcd.print("   ");
+  
+  if (pulsacion == '1'){factor_temp +=10;}
+  if (pulsacion == '2'){factor_temp -=10;}
+  
+  lcd.setCursor(7,0); lcd.print(factor_temp);
+  
+  if (pulsacion == '#'){
+    factor = factor_temp;
+    balanza_hx.set_scale(factor);
+    lcd.setCursor(0,3); lcd.print("CORRECTO            ");
+    delay(800);
+    user = false;
+    pass_temp = "";
+    contador = 1;
+    }
+  }
 
 void mezclador(){
       pos_col = 3;
