@@ -252,8 +252,9 @@ void accion_3(){
        int peso_d2;
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
-        
-       while(peso_temp < (f1D1 - result_bal) && f1D1 != 0) {      
+
+     if(f1D1 != 0){   
+       while(peso_temp < (f1D1 - result_bal)) {      
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -268,13 +269,15 @@ void accion_3(){
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+     }
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
-      
-      while(peso_temp < (f1D2 - result_bal) && f1D2 != 0){
+
+    if(f1D2 != 0){  
+      while(peso_temp < (f1D2 - result_bal)){
          pulsacion = Teclado1.getKey();
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -284,11 +287,12 @@ void accion_3(){
          digitalWrite(pin_d2, LOW); act_d2 = true;
          tiempo += 1;
          reloj();
-         lcd.setCursor(17,1);lcd.print(peso_d2);
+         lcd.setCursor(7,2);lcd.print(peso_d2);
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+    }
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(17,1);lcd.print(peso_d2);
       peso_temp = 0;   
