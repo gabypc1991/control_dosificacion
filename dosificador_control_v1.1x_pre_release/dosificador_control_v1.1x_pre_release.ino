@@ -17,8 +17,8 @@ const int in_4 = 4;
 String pass_temp = "";
 bool user = false;
 
-float factor = -7050.0;
-float factor_temp = -7050.0;
+float factor;
+float factor_temp;
 int balanza = 0;
 int balanza_bruto = 0;
 int result_bal;
@@ -110,6 +110,11 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
                                   
 ////////////////////////////////// Void Setup() ///////////
 void setup() {
+ EEPROM.get(0, f1D1);
+ EEPROM.get(4, f1D2);
+ EEPROM.get(8, factor);
+ factor_temp = factor;
+ 
  Serial.begin(9600);
  balanza_hx.begin(DOUT, CLK);
  balanza_hx.set_scale(factor);
@@ -117,12 +122,7 @@ void setup() {
  Timer1.initialize(100000);
  Timer1.attachInterrupt(proceso);
  lcd.init();
- lcd.backlight();
- 
- EEPROM.get(0, f1D1);
- EEPROM.get(1, f1D2);
-
- EEPROM.get(12, factor);
+ lcd.backlight(); 
 
  pinMode(pin_d1, OUTPUT);
  pinMode(pin_d2, OUTPUT);
@@ -369,7 +369,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D2 = myString.toInt();        
-        EEPROM.put(1, f1D2);          
+        EEPROM.put(4, f1D2);          
         lcd.setCursor(11,2); lcd.print(f1D2);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -543,15 +543,21 @@ void accion_calibrar(){
   
   lcd.setCursor(11,2); lcd.print(balanza);lcd.print("   ");
   
-  if (pulsacion == '1'){factor_temp +=10;}
-  if (pulsacion == '2'){factor_temp -=10;}
+  if (pulsacion == '1'){factor_temp +=5;}
+  if (pulsacion == '2'){factor_temp -=5;}
+
+  if (pulsacion == '4'){factor_temp +=10;}
+  if (pulsacion == '5'){factor_temp -=10;}
+
+  if (pulsacion == '7'){factor_temp +=100;}
+  if (pulsacion == '8'){factor_temp -=100;}
   
   lcd.setCursor(7,0); lcd.print(factor_temp);
   
   if (pulsacion == '#'){
     factor = factor_temp;
     balanza_hx.set_scale(factor);
-    EEPROM.put(12, factor);
+    EEPROM.put(8, factor);
     lcd.setCursor(0,3); lcd.print("CORRECTO            ");
     delay(800);
     user = false;
