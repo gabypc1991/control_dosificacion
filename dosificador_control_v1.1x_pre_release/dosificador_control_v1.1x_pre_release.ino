@@ -119,8 +119,10 @@ void setup() {
  lcd.init();
  lcd.backlight();
  
- f1D1 = EEPROM.read(0);
- f1D2 = EEPROM.read(1);
+ EEPROM.get(0, f1D1);
+ EEPROM.get(1, f1D2);
+
+ EEPROM.get(12, factor);
 
  pinMode(pin_d1, OUTPUT);
  pinMode(pin_d2, OUTPUT);
@@ -339,7 +341,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D1 = myString.toInt();
-        EEPROM.write(0, f1D1);        
+        EEPROM.put(0, f1D1);        
         lcd.setCursor(11,2); lcd.print(f1D1);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);               
@@ -367,7 +369,7 @@ void accion_4(){
         readVal();
         edit = true;
         f1D2 = myString.toInt();        
-        EEPROM.write(1, f1D2);          
+        EEPROM.put(1, f1D2);          
         lcd.setCursor(11,2); lcd.print(f1D2);
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
@@ -549,6 +551,7 @@ void accion_calibrar(){
   if (pulsacion == '#'){
     factor = factor_temp;
     balanza_hx.set_scale(factor);
+    EEPROM.put(12, factor);
     lcd.setCursor(0,3); lcd.print("CORRECTO            ");
     delay(800);
     user = false;
