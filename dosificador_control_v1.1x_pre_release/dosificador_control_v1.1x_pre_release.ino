@@ -37,10 +37,15 @@ int f4D2 = 0;
 
 long latter_time;
 long difference;
+
 bool endtext = false;
 bool edit = false;
 bool proc_activo = false;
 bool proc_comp = false;
+bool boton_in1 = false;
+bool boton_in2 = false;
+bool boton_in3 = false;
+bool boton_in4 = false;
 char last_key_pressed = ' ';
 byte num_times_pressed = 0;
 String text;
@@ -146,11 +151,13 @@ void setup() {
 } 
 ////////////////////////// Void loop() ///////////////////////
 void loop() {
-  pulsacion = Teclado1.getKey() ;  // Lee la tecla pulsada
+  pulsacion = Teclado1.getKey() ;  // Lee la tecla pulsada  
  if (pulsacion != 0) {      
     lcd.clear();
     delay(100);
  }
+ if(act_in3 == !true){contador = 2;}
+ 
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}
@@ -244,7 +251,7 @@ void menu_3(){
 void accion_3(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
    
-   if(pulsacion == '*' && balanza < 5) {
+   if(pulsacion == '*' || act_in3 == !true && balanza < 5) {
     
    proc_activo = true;
    
@@ -624,6 +631,13 @@ void proceso(){
   act_in2 = digitalRead(in_2);
   act_in3 = digitalRead(in_3);
   act_in4 = digitalRead(in_4);
+  }
+
+void botonera(){
+  if(act_in1 == true && boton_in1 == false){boton_in1 = true;}else if(act_in1 == true && boton_in1 == true){boton_in1 = false;}
+  if(act_in2 == true && boton_in2 == false){boton_in2 = true;}else if(act_in2 == true && boton_in2 == true){boton_in2 = false;}
+  if(act_in3 == true && boton_in3 == false){boton_in3 = true;}else if(act_in3 == true && boton_in3 == true){boton_in3 = false;}
+  if(act_in4 == true && boton_in4 == false){boton_in4 = true;}else if(act_in4 == true && boton_in4 == true){boton_in4 = false;}  
   }
 
 void estabilizacion(){
