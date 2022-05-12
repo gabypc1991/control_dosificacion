@@ -46,6 +46,7 @@ bool boton_in1 = false;
 bool boton_in2 = false;
 bool boton_in3 = false;
 bool boton_in4 = false;
+bool mezcla = false;
 char last_key_pressed = ' ';
 byte num_times_pressed = 0;
 String text;
@@ -53,6 +54,8 @@ char last_character = ' ';
 char pulsacion;       // almacena la tecla pulsada
 int pos_col = 0;
 int pos_fil = 0;
+int pos_col1 = 0;
+int pos_fil1 = 0;
 String myString = "";
 
 int tiempo = 0;
@@ -60,15 +63,22 @@ int now = 0;
 int minutes = 0;
 int hour = 0;
 int segundo = 0;
+
+int tiempo_m = 0;
+int now_1 = 0;
+int minutes_1 = 0;
+int hour_1 = 0;
+int segundo_1 = 0;
+
 bool act_d1 = false;
 bool act_d2 = false;
 bool act_d3 = false;
 bool act_d4 = false;
 bool act_d5 = false;
-bool act_in1 = false;
-bool act_in2 = false;
-bool act_in3 = false;
-bool act_in4 = false;
+bool act_in1 = true;
+bool act_in2 = true;
+bool act_in3 = true;
+bool act_in4 = true;
 bool buttonState = false;
 bool lastButtonState;
 bool salida;  
@@ -574,37 +584,25 @@ void accion_calibrar(){
   }
 
 void mezclador(){
-      pos_col = 3;
-      pos_fil = 2;
-      lcd.setCursor(0,0); lcd.print("                    ");     
-      lcd.setCursor(0,1); lcd.print("     Mezclando...   ");  
-      lcd.setCursor(0,2); lcd.print("                    ");
-      lcd.setCursor(0,3); lcd.print("           Parar <O>"); 
-      while(tiempo < t_mezcla){
-        digitalWrite(pin_d5, LOW);
-        tiempo += 1;
-        reloj();
-        delay(100);
-        }
-      digitalWrite(pin_d5, HIGH);
-      tiempo = 0;
-      now = 0;
-      hour=0;
-      minutes=0;
-      segundo=0;
-      contador = 1;   
-  }
-
-void status_IO(){  
-  buttonState = digitalRead(in_1);
-  if (buttonState != lastButtonState) {
-    if (buttonState == HIGH) {
-      salida = true;
-    } else {
-      salida = false;
+  if(boton_in4 == true && mezcla == false || mezcla == true){
+      pos_col1 = 11;
+      pos_fil1 = 2;
+      if(tiempo_m < t_mezcla){        
+      mezcla = true;
+        digitalWrite(pin_d4, LOW);
+        tiempo_m += 1;
+        reloj_1();
+      }else{
+       digitalWrite(pin_d4, HIGH);
+       mezcla = false;
+       tiempo_m = 0;
+       now_1 = 0;
+       hour_1=0;
+       minutes_1=0;
+       segundo_1=0;
     }
+   }   
   }
-}
 
 String readVal(){
   myString = "";
@@ -625,19 +623,23 @@ void proceso(){
   //int temp_bal = analogRead(A8);
   //balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
   //balanza = (balanza_bruto - tara);
-
+  
   balanza = balanza_hx.get_units();
   act_in1 = digitalRead(in_1);
   act_in2 = digitalRead(in_2);
   act_in3 = digitalRead(in_3);
   act_in4 = digitalRead(in_4);
+
+  if(act_in4 == !true && boton_in4 == false){boton_in4 = true;}else if(act_in4 == !true && boton_in4 == true){boton_in4 = false;}
+  //botonera();
+  //mezclador();
   }
 
 void botonera(){
-  if(act_in1 == true && boton_in1 == false){boton_in1 = true;}else if(act_in1 == true && boton_in1 == true){boton_in1 = false;}
-  if(act_in2 == true && boton_in2 == false){boton_in2 = true;}else if(act_in2 == true && boton_in2 == true){boton_in2 = false;}
-  if(act_in3 == true && boton_in3 == false){boton_in3 = true;}else if(act_in3 == true && boton_in3 == true){boton_in3 = false;}
-  if(act_in4 == true && boton_in4 == false){boton_in4 = true;}else if(act_in4 == true && boton_in4 == true){boton_in4 = false;}  
+  if(act_in1 == !true && boton_in1 == false){boton_in1 = true;}else if(act_in1 == !true && boton_in1 == true){boton_in1 = false;}
+  if(act_in2 == !true && boton_in2 == false){boton_in2 = true;}else if(act_in2 == !true && boton_in2 == true){boton_in2 = false;}
+  if(act_in3 == !true && boton_in3 == false){boton_in3 = true;}else if(act_in3 == !true && boton_in3 == true){boton_in3 = false;}
+  if(act_in4 == !true && boton_in4 == false){boton_in4 = true;}else if(act_in4 == !true && boton_in4 == true){boton_in4 = false;}  
   }
 
 void estabilizacion(){
@@ -678,6 +680,36 @@ void reloj() {
   lcd.print(":");
   if(segundo<10)lcd.print("0");
   lcd.print(segundo);
+ }
+}
+
+void reloj_1() {
+  if(tiempo_m > now_1 + 9){//cada segunto
+    now_1 = tiempo_m;    
+    segundo_1++;
+  if(segundo_1>59){
+    minutes_1++;
+    segundo_1=0;
+  }
+  if(minutes_1>59){
+    hour_1++;
+    minutes_1=0;
+    segundo_1=0;
+  }
+  if(hour_1>=24){
+    hour_1=0;
+    minutes_1=0;
+    segundo_1=0;
+  }
+  lcd.setCursor(pos_col1,pos_fil1);
+  if(hour_1<10)lcd.print("0");
+  lcd.print(hour_1);
+  lcd.print(":");
+  if(minutes_1<10)lcd.print("0");
+  lcd.print(minutes_1);
+  lcd.print(":");
+  if(segundo_1<10)lcd.print("0");
+  lcd.print(segundo_1);
  }
 }
 
