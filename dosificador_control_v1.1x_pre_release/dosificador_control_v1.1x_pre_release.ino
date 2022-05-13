@@ -24,7 +24,7 @@ int balanza_bruto = 0;
 int result_bal;
 int tara = 0;
 bool estab_comp = false;
-int t_mezcla = 150;
+int t_mezcla;
 
 int f1D1 = 0;
 int f1D2 = 0;
@@ -79,10 +79,10 @@ bool act_in1 = true;
 bool act_in2 = true;
 bool act_in3 = true;
 bool act_in4 = true;
-bool last_in1 = true;
-bool last_in2 = true;
-bool last_in3 = true;
-bool last_in4 = true;
+bool last_in1 = false;
+bool last_in2 = false;
+bool last_in3 = false;
+bool last_in4 = false;
 bool buttonState = false;
 bool lastButtonState;
 bool salida;  
@@ -132,6 +132,7 @@ void setup() {
  EEPROM.get(0, f1D1);
  EEPROM.get(4, f1D2);
  EEPROM.get(8, factor);
+ EEPROM.get(12, t_mezcla);
  factor_temp = factor;
  
  Serial.begin(9600);
@@ -171,7 +172,8 @@ void loop() {
     delay(100);
  }
  if(act_in3 != true && contador != 3){contador = 2;}
- 
+
+ if(contador == 20){ menu_10();accion_10();}
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}
@@ -214,28 +216,29 @@ void menu_1(){
 void accion_1(){ 
   if(pulsacion == '1') {contador = 2;lcd.clear();}
   if(pulsacion == '2') {contador = 4;lcd.clear();}
-  if(pulsacion == '3') {contador = 15;lcd.clear();}
+  if(pulsacion == '3') {contador = 20;lcd.clear();}
   if(pulsacion == '*') {contador = 16;lcd.clear();}
 }
 
 void menu_1_2(){ 
    lcd.setCursor(0,0); lcd.print("BALANZA           >1");
-   lcd.setCursor(0,1); lcd.print("AJUSTES           >2");
-   lcd.setCursor(0,2); lcd.print("                    ");
+   lcd.setCursor(0,1); lcd.print("TIEMPO MEZCLA     >2");
+   lcd.setCursor(0,2); lcd.print("AJUSTES           >3");
    lcd.setCursor(0,3); lcd.print("Volver <#>");
 }
 /////////////////////Accion 1 //////////////////////////////
 void accion_1_2(){ 
   if(pulsacion == '1') {contador = 14;lcd.clear();}
-  if(pulsacion == '2') {contador = 19;lcd.clear();}
+  if(pulsacion == '2') {contador = 15;lcd.clear();}
+  if(pulsacion == '3') {contador = 19;lcd.clear();}
   if(pulsacion == '#') {contador = 1;lcd.clear();}
 }
 
 /////////////////////Menu_2  //////////////////////////////////
 void menu_2(){ 
-   lcd.setCursor(0,0); lcd.print("FORM1 <1>  FORM4 <4>");
-   lcd.setCursor(0,1); lcd.print("FORM2 <2>  FORM5 <5>");
-   lcd.setCursor(0,2); lcd.print("FORM3 <3>  FORM6 <6>");
+   lcd.setCursor(0,0); lcd.print("FORM1 <1>           ");
+   lcd.setCursor(0,1); lcd.print("FORM2 <2>           ");
+   lcd.setCursor(0,2); lcd.print("FORM3 <3>           ");
    lcd.setCursor(0,3); lcd.print("Volver <#>  Mas..<*>");
 }
 /////////////////////Accion 2 //////////////////////////////
@@ -247,7 +250,9 @@ void accion_2(){
 /////////////////////Menu_3  //////////////////////////////////
 void menu_3(){
   pos_col = 11;
-  pos_fil = 0; 
+  pos_fil = 0;
+  pos_col1 = 14;
+  pos_fil1 = 2; 
   lcd.setCursor(0,0); lcd.print("Form.1   t:");
   lcd.setCursor(0,1); lcd.print("D1(");
   lcd.setCursor(3,1); lcd.print(f1D1);
@@ -255,8 +260,9 @@ void menu_3(){
   lcd.setCursor(0,2); lcd.print("D2(");
   lcd.setCursor(3,2); lcd.print(f1D2);
   lcd.setCursor(6,2); lcd.print(")");
+  lcd.setCursor(13,1); lcd.print("MEZCLA");
   if(proc_comp == false){
-    lcd.setCursor(0,3); lcd.print("           Inic. <*>");
+    lcd.setCursor(0,3); lcd.print("           Inicia ->");
   }else if(proc_comp == true){
     lcd.setCursor(0,3); lcd.print("           Volver<#>");
   }  
@@ -264,7 +270,7 @@ void menu_3(){
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
-   reloj_1();
+   reloj_1_print();
    if(pulsacion == '*' || act_in3 != true && balanza < 5) {
     
    proc_activo = true;
@@ -287,18 +293,19 @@ void accion_3(){
          digitalWrite(pin_d1, LOW); act_d1 = true;
          tiempo += 1;
          reloj();
-         reloj_1();
-         lcd.setCursor(7,1);lcd.print(peso_d1);
+         reloj_1_print();
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
-     }
+     
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
+     }
 
     if(f1D2 != 0){  
       while(peso_temp < (f1D2 - result_bal)){
@@ -311,18 +318,19 @@ void accion_3(){
          digitalWrite(pin_d2, LOW); act_d2 = true;
          tiempo += 1;
          reloj();
-         reloj_1();
-         lcd.setCursor(7,2);lcd.print(peso_d2);
+         reloj_1_print();
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
       lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
-    }
+    
       peso_d2 = balanza - peso_d1;
-      lcd.setCursor(17,1);lcd.print(peso_d2);
+      lcd.setCursor(7,2);lcd.print(peso_d2);
       peso_temp = 0;   
       result_bal = 0;
-      estab_comp = false;      
+      estab_comp = false;
+    }      
       tiempo = 0;
       now = 0;
       hour=0;
@@ -460,24 +468,27 @@ void accion_5(){
     }
 
     void menu_7(){      
-      pos_col = 11;
+      pos_col = 12;
       pos_fil = 2;
       lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
       lcd.setCursor(0,1); lcd.print("                     ");
-      lcd.setCursor(0,2); lcd.print("Minutos:");
-      lcd.setCursor(11,2); lcd.print(t_mezcla);
+      lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+      lcd.setCursor(0,2); lcd.print("Set Minutos:");
 
       while(edit != true){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal();
         edit = true;
-        t_mezcla = myString.toInt();   
-        lcd.setCursor(11,2); lcd.print(t_mezcla);
+        t_mezcla = myString.toInt();
+        t_mezcla = t_mezcla * 600;
+        EEPROM.put(12, t_mezcla);   
+        lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
         lcd.setCursor(0,3); lcd.print("CORRECTO");
         delay(800);
           
         }
         edit = false;
+        pulsacion = '0';
         contador = 1;
         lcd.clear();
           
@@ -518,7 +529,7 @@ void accion_5(){
        if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
                 
     }
-
+/////////////////////////Menu_9 //////////////////////////////////
 void menu_9(){ 
    String pass = "1234";
    if(user != true){
@@ -547,12 +558,26 @@ void menu_9(){
    
    
 }
-/////////////////////Accion 1 //////////////////////////////
+/////////////////////Accion 9 //////////////////////////////
 void accion_9(){ 
   if(pulsacion == 'A') {contador = 18;lcd.clear();}
   if(pulsacion == 'B') {contador = 17;lcd.clear();}
   if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();}
 }
+
+/////////////////////////Menu_10 //////////////////////////////////
+    void menu_10(){
+      pos_col1 = 8;
+      pos_fil1 = 2; 
+      lcd.setCursor(0,0); lcd.print("      MEZCLADOR     ");
+      lcd.setCursor(0,1); lcd.print("  TIEMPO DE PROCESO ");
+      lcd.setCursor(0,3); lcd.print("Volver <#>");
+    }
+/////////////////////////Accion_10 //////////////////////////////
+    void accion_10(){
+        reloj_1_print(); 
+        if(pulsacion == '#') {contador = 1;lcd.clear();}
+    }
 
 void calibrar_balanza(){ 
       lcd.setCursor(0,0); lcd.print("Factor:");
@@ -590,12 +615,11 @@ void accion_calibrar(){
   }
 
 void mezclador(){
-  if(boton_in4 == true && contador == 3){
-      pos_col1 = 11;
-      pos_fil1 = 2;
+  if(boton_in4 == true){      
       if(tiempo_m < t_mezcla){     
         digitalWrite(pin_d4, LOW);
-        tiempo_m += 1;        
+        tiempo_m += 1;
+        reloj_1();        
       }else{
        digitalWrite(pin_d4, HIGH);
        boton_in4 = false;
@@ -702,18 +726,18 @@ void reloj_1() {
     hour_1=0;
     minutes_1=0;
     segundo_1=0;
-  }
+  }  
+ }
+}
+
+void reloj_1_print() {  
   lcd.setCursor(pos_col1,pos_fil1);
-  if(hour_1<10)lcd.print("0");
-  lcd.print(hour_1);
-  lcd.print(":");
   if(minutes_1<10)lcd.print("0");
   lcd.print(minutes_1);
   lcd.print(":");
   if(segundo_1<10)lcd.print("0");
   lcd.print(segundo_1);
  }
-}
 
 void keypadEvent(KeypadEvent key) {
 switch (Teclado1.getState()) {
