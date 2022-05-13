@@ -129,20 +129,16 @@ LiquidCrystal_I2C lcd(0x27,20,4); // dependiendo del fabricante del I2C el codig
                                   
 ////////////////////////////////// Void Setup() ///////////
 void setup() {
+ 
  EEPROM.get(0, f1D1);
  EEPROM.get(4, f1D2);
  EEPROM.get(8, factor);
  EEPROM.get(12, t_mezcla);
+ EEPROM.get(16, f2D1);
+ EEPROM.get(20, f2D2);
+ EEPROM.get(24, f3D1);
+ EEPROM.get(28, f3D2);
  factor_temp = factor;
- 
- Serial.begin(9600);
- balanza_hx.begin(DOUT, CLK);
- balanza_hx.set_scale(factor);
- balanza_hx.tare(20); 
- Timer1.initialize(100000);
- Timer1.attachInterrupt(proceso);
- lcd.init();
- lcd.backlight(); 
 
  pinMode(pin_d1, OUTPUT);
  pinMode(pin_d2, OUTPUT);
@@ -154,12 +150,25 @@ void setup() {
  pinMode(in_3, INPUT_PULLUP);
  pinMode(in_4, INPUT_PULLUP);
 
+ last_in1 = false;
+ last_in2 = false;
+ last_in3 = false;
+ last_in4 = false;
  digitalWrite(pin_d1, HIGH);
  digitalWrite(pin_d2, HIGH);
  digitalWrite(pin_d3, HIGH);
  digitalWrite(pin_d4, HIGH);
  digitalWrite(pin_d5, HIGH);
  
+ Serial.begin(9600);
+ balanza_hx.begin(DOUT, CLK);
+ balanza_hx.set_scale(factor);
+ balanza_hx.tare(20); 
+ Timer1.initialize(100000);
+ Timer1.attachInterrupt(proceso);
+ lcd.init();
+ lcd.backlight(); 
+  
  Teclado1.addEventListener(keypadEvent);
  intro_0();             // muestra el intro de  bienvenida
 
@@ -171,8 +180,13 @@ void loop() {
     lcd.clear();
     delay(100);
  }
- if(act_in3 != true && contador != 3){contador = 2;}
+ if(act_in3 != true && (contador != 3 || contador != 21 || contador != 22)){contador = 2;}
 
+ if(contador == 25){ menu_11_2();accion_11_2();}
+ if(contador == 24){ menu_11_1();accion_11_1();}
+ if(contador == 23){ menu_11();accion_11();}
+ if(contador == 22){ menu_3_2();accion_3_2();}
+ if(contador == 21){ menu_3_1();accion_3_1();}
  if(contador == 20){ menu_10();accion_10();}
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
@@ -198,7 +212,7 @@ void loop() {
 
 void intro_0(){ 
  lcd.clear();  // Borra el  LCD
- lcd.setCursor(0, 0); lcd.print("--------------v1.0pR");
+ lcd.setCursor(0, 0); lcd.print("--------------v1.1pR");
  lcd.setCursor(0, 1); lcd.print("    CONTROLADOR     ");
  lcd.setCursor(0, 2); lcd.print("     DOSIFICACION   ");
  lcd.setCursor(0, 3); lcd.print("--------------------");
@@ -239,12 +253,14 @@ void menu_2(){
    lcd.setCursor(0,0); lcd.print("FORM1 <1>           ");
    lcd.setCursor(0,1); lcd.print("FORM2 <2>           ");
    lcd.setCursor(0,2); lcd.print("FORM3 <3>           ");
-   lcd.setCursor(0,3); lcd.print("Volver <#>  Mas..<*>");
+   lcd.setCursor(0,3); lcd.print("Volver <#>          ");
 }
 /////////////////////Accion 2 //////////////////////////////
 void accion_2(){ 
     if(pulsacion == '#') {contador = 1;lcd.clear();}
     if(pulsacion == '1') {contador = 3;lcd.clear();}
+    if(pulsacion == '2') {contador = 21;lcd.clear();}
+    if(pulsacion == '3') {contador = 22;lcd.clear();}
 }
 
 /////////////////////Menu_3  //////////////////////////////////
@@ -271,7 +287,7 @@ void menu_3(){
 void accion_3(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
    reloj_1_print();
-   if(pulsacion == '*' || act_in3 != true && balanza < 5) {
+   if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
    proc_activo = true;
    
@@ -339,7 +355,203 @@ void accion_3(){
       proc_activo = false;
       proc_comp = true;
     }
-   }else if(pulsacion == '*' || act_in3 != true && balanza > 5){
+   }else if((pulsacion == '*' || act_in3 != true) && balanza > 5){
+      lcd.setCursor(0,3);lcd.print("err_bal");
+      delay(1000);
+    }    
+  }
+
+/////////////////////Menu_3  //////////////////////////////////
+void menu_3_1(){
+  pos_col = 11;
+  pos_fil = 0;
+  pos_col1 = 14;
+  pos_fil1 = 2; 
+  lcd.setCursor(0,0); lcd.print("Form.2   t:");
+  lcd.setCursor(0,1); lcd.print("D1(");
+  lcd.setCursor(3,1); lcd.print(f2D1);
+  lcd.setCursor(6,1); lcd.print(")");
+  lcd.setCursor(0,2); lcd.print("D2(");
+  lcd.setCursor(3,2); lcd.print(f2D2);
+  lcd.setCursor(6,2); lcd.print(")");
+  lcd.setCursor(13,1); lcd.print("MEZCLA");
+  if(proc_comp == false){
+    lcd.setCursor(0,3); lcd.print("           Inicia ->");
+  }else if(proc_comp == true){
+    lcd.setCursor(0,3); lcd.print("           Volver<#>");
+  }  
+}
+/////////////////////Accion 3 //////////////////////////////
+void accion_3_1(){ 
+   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
+   reloj_1_print();
+   if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
+    
+   proc_activo = true;
+   
+   while(proc_activo != false){
+       int peso_temp;
+       int peso_d1;
+       int peso_d2;
+       lcd.setCursor(0,3);lcd.print("                    ");
+       lcd.setCursor(0,3);lcd.print("Bal.Kg:");
+
+     if(f2D1 != 0){   
+       while(peso_temp < (f2D1 - result_bal)) {      
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+         peso_temp = balanza;
+         peso_d1 = peso_temp;
+         if(peso_d1 > (f2D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d1, LOW); act_d1 = true;
+         tiempo += 1;
+         reloj();
+         reloj_1_print();
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
+         delay(100);            
+         }
+      digitalWrite(pin_d1, HIGH); act_d1 = false;            
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+     
+      peso_d1 = balanza;
+      lcd.setCursor(7,1);lcd.print(peso_d1); 
+      peso_temp = 0;   
+      result_bal = 0;
+      estab_comp = false;
+     }
+
+    if(f2D2 != 0){  
+      while(peso_temp < (f2D2 - result_bal)){
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+         peso_temp = balanza - peso_d1;
+         peso_d2 = peso_temp;
+         if(peso_d2 > (f2D2 / 2) && estab_comp != true){digitalWrite(pin_d2, HIGH);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d2, LOW); act_d2 = true;
+         tiempo += 1;
+         reloj();
+         reloj_1_print();
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         delay(100);            
+         }
+      digitalWrite(pin_d2, HIGH); act_d2 = false;
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+    
+      peso_d2 = balanza - peso_d1;
+      lcd.setCursor(7,2);lcd.print(peso_d2);
+      peso_temp = 0;   
+      result_bal = 0;
+      estab_comp = false;
+    }      
+      tiempo = 0;
+      now = 0;
+      hour=0;
+      minutes=0;
+      segundo=0;             
+      proc_activo = false;
+      proc_comp = true;
+    }
+   }else if((pulsacion == '*' || act_in3 != true) && balanza > 5){
+      lcd.setCursor(0,3);lcd.print("err_bal");
+      delay(1000);
+    }    
+  }
+
+/////////////////////Menu_3  //////////////////////////////////
+void menu_3_2(){
+  pos_col = 11;
+  pos_fil = 0;
+  pos_col1 = 14;
+  pos_fil1 = 2; 
+  lcd.setCursor(0,0); lcd.print("Form.3   t:");
+  lcd.setCursor(0,1); lcd.print("D1(");
+  lcd.setCursor(3,1); lcd.print(f3D1);
+  lcd.setCursor(6,1); lcd.print(")");
+  lcd.setCursor(0,2); lcd.print("D2(");
+  lcd.setCursor(3,2); lcd.print(f3D2);
+  lcd.setCursor(6,2); lcd.print(")");
+  lcd.setCursor(13,1); lcd.print("MEZCLA");
+  if(proc_comp == false){
+    lcd.setCursor(0,3); lcd.print("           Inicia ->");
+  }else if(proc_comp == true){
+    lcd.setCursor(0,3); lcd.print("           Volver<#>");
+  }  
+}
+/////////////////////Accion 3 //////////////////////////////
+void accion_3_2(){ 
+   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
+   reloj_1_print();
+   if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
+    
+   proc_activo = true;
+   
+   while(proc_activo != false){
+       int peso_temp;
+       int peso_d1;
+       int peso_d2;
+       lcd.setCursor(0,3);lcd.print("                    ");
+       lcd.setCursor(0,3);lcd.print("Bal.Kg:");
+
+     if(f3D1 != 0){   
+       while(peso_temp < (f3D1 - result_bal)) {      
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+         peso_temp = balanza;
+         peso_d1 = peso_temp;
+         if(peso_d1 > (f3D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d1, LOW); act_d1 = true;
+         tiempo += 1;
+         reloj();
+         reloj_1_print();
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
+         delay(100);            
+         }
+      digitalWrite(pin_d1, HIGH); act_d1 = false;            
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+     
+      peso_d1 = balanza;
+      lcd.setCursor(7,1);lcd.print(peso_d1); 
+      peso_temp = 0;   
+      result_bal = 0;
+      estab_comp = false;
+     }
+
+    if(f3D2 != 0){  
+      while(peso_temp < (f3D2 - result_bal)){
+         pulsacion = Teclado1.getKey();
+         lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
+         if(pulsacion == '#') break;
+         peso_temp = balanza - peso_d1;
+         peso_d2 = peso_temp;
+         if(peso_d2 > (f3D2 / 2) && estab_comp != true){digitalWrite(pin_d2, HIGH);estabilizacion(); estab_comp = true;}
+         digitalWrite(pin_d2, LOW); act_d2 = true;
+         tiempo += 1;
+         reloj();
+         reloj_1_print();
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         delay(100);            
+         }
+      digitalWrite(pin_d2, HIGH); act_d2 = false;
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+    
+      peso_d2 = balanza - peso_d1;
+      lcd.setCursor(7,2);lcd.print(peso_d2);
+      peso_temp = 0;   
+      result_bal = 0;
+      estab_comp = false;
+    }      
+      tiempo = 0;
+      now = 0;
+      hour=0;
+      minutes=0;
+      segundo=0;             
+      proc_activo = false;
+      proc_comp = true;
+    }
+   }else if((pulsacion == '*' || act_in3 != true) && balanza > 5){
       lcd.setCursor(0,3);lcd.print("err_bal");
       delay(1000);
     }    
@@ -426,31 +638,132 @@ void menu_5(){
 /////////////////////Accion 5 //////////////////////////////
 void accion_5(){ 
     if(pulsacion == '#') {contador = 1;lcd.clear();}
+    if(pulsacion == '*') {contador = 23;lcd.clear();}
     if(pulsacion == 'A') {contador = 10;lcd.clear();}
     if(pulsacion == 'B') {contador = 11;lcd.clear();}
 }
 /////////////////////////Sub_Menu_5_1  //////////////////////////////////
     void menu_5_1(){ 
+      pos_col = 11;
+      pos_fil = 2;
       lcd.setCursor(0,0); lcd.print("      Formula 2     ");
       lcd.setCursor(0,1); lcd.print("       DOSIS 1      ");
-      lcd.setCursor(0,2); lcd.print("VALOR (Kg):         ");
-      lcd.setCursor(0,3); lcd.print("            D2-> <*>");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(11,2); lcd.print(f2D1);
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal();
+        edit = true;
+        f2D1 = myString.toInt();
+        EEPROM.put(16, f2D1);        
+        lcd.setCursor(11,2); lcd.print(f2D1);
+        lcd.setCursor(0,3); lcd.print("CORRECTO");
+        delay(800);               
+        }
+        contador = 9;
+        edit = false; 
+        lcd.clear();
     }
 /////////////////////////Accion_5_1 //////////////////////////////
     void accion_5_1(){ 
-        if(pulsacion == '*') {contador = 11;lcd.clear();}
+        //if(pulsacion == '*') {contador = 11;lcd.clear();}
         
     }
 /////////////////////////Menu_5_2  //////////////////////////////////
     void menu_5_2(){ 
+      pos_col = 11;
+      pos_fil = 2;
       lcd.setCursor(0,0); lcd.print("      Formula 2     ");
       lcd.setCursor(0,1); lcd.print("       DOSIS 2      ");
-      lcd.setCursor(0,2); lcd.print("VALOR (Kg):         ");
-      lcd.setCursor(0,3); lcd.print("            D3-> <*>");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(11,2); lcd.print(f2D2);
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal();
+        edit = true;
+        f2D2 = myString.toInt();
+        EEPROM.put(20, f2D2);        
+        lcd.setCursor(11,2); lcd.print(f2D2);
+        lcd.setCursor(0,3); lcd.print("CORRECTO");
+        delay(800);               
+        }
+        contador = 9;
+        edit = false; 
+        lcd.clear();
     }
 /////////////////////////Accion_5_2 //////////////////////////////
     void accion_5_2(){ 
-        if(pulsacion == '*') {contador = 12;lcd.clear();}
+        //if(pulsacion == '*') {contador = 12;lcd.clear();}
+    }
+
+/////////////////////Menu_11  //////////////////////////////////
+void menu_11(){ 
+  lcd.setCursor(0,0); lcd.print("Formula 3           ");
+  lcd.setCursor(0,1); lcd.print("A>D1:");lcd.print(f3D1);
+  lcd.setCursor(0,2); lcd.print("B>D2:");lcd.print(f3D2);
+  lcd.setCursor(0,3); lcd.print("Volver >#           ");
+}
+/////////////////////Accion 11 //////////////////////////////
+void accion_11(){ 
+    if(pulsacion == '#') {contador = 1;lcd.clear();}
+    if(pulsacion == 'A') {contador = 24;lcd.clear();}
+    if(pulsacion == 'B') {contador = 25;lcd.clear();}
+}
+
+/////////////////////////Sub_Menu_11_1  //////////////////////////////////
+    void menu_11_1(){ 
+      pos_col = 11;
+      pos_fil = 2;
+      lcd.setCursor(0,0); lcd.print("      Formula 3     ");
+      lcd.setCursor(0,1); lcd.print("       DOSIS 1      ");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(11,2); lcd.print(f3D1);
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal();
+        edit = true;
+        f3D1 = myString.toInt();
+        EEPROM.put(24, f3D1);        
+        lcd.setCursor(11,2); lcd.print(f3D1);
+        lcd.setCursor(0,3); lcd.print("CORRECTO");
+        delay(800);               
+        }
+        contador = 23;
+        edit = false; 
+        lcd.clear();
+    }
+/////////////////////////Accion_5_1 //////////////////////////////
+    void accion_11_1(){ 
+        //if(pulsacion == '*') {contador = 11;lcd.clear();}
+        
+    }
+
+/////////////////////////Sub_Menu_11_2  //////////////////////////////////
+    void menu_11_2(){ 
+      pos_col = 11;
+      pos_fil = 2;
+      lcd.setCursor(0,0); lcd.print("      Formula 3     ");
+      lcd.setCursor(0,1); lcd.print("       DOSIS 2      ");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+      lcd.setCursor(11,2); lcd.print(f3D2);
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal();
+        edit = true;
+        f3D2 = myString.toInt();
+        EEPROM.put(28, f3D2);        
+        lcd.setCursor(11,2); lcd.print(f3D2);
+        lcd.setCursor(0,3); lcd.print("CORRECTO");
+        delay(800);               
+        }
+        contador = 23;
+        edit = false; 
+        lcd.clear();
+    }
+/////////////////////////Accion_5_1 //////////////////////////////
+    void accion_11_2(){ 
+        //if(pulsacion == '*') {contador = 11;lcd.clear();}
+        
     }
 
 /////////////////////////  Menu_6  //////////////////////////////////
@@ -571,12 +884,19 @@ void accion_9(){
       pos_fil1 = 2; 
       lcd.setCursor(0,0); lcd.print("      MEZCLADOR     ");
       lcd.setCursor(0,1); lcd.print("  TIEMPO DE PROCESO ");
-      lcd.setCursor(0,3); lcd.print("Volver <#>");
+      lcd.setCursor(0,3); lcd.print("Volver<#>   Reini<*>");
     }
 /////////////////////////Accion_10 //////////////////////////////
     void accion_10(){
         reloj_1_print(); 
         if(pulsacion == '#') {contador = 1;lcd.clear();}
+        if(pulsacion == '*') {
+          tiempo_m = 0;
+          now_1 = 0;
+          hour_1=0;
+          minutes_1=0;
+          segundo_1=0;
+      }
     }
 
 void calibrar_balanza(){ 
