@@ -34,10 +34,10 @@ void menu_2(){
 }
 
 void accion_2(){ 
- if(pulsacion == '#') {contador = 1;lcd.clear();}
- if(pulsacion == '1') {contador = 3;lcd.clear();}
- if(pulsacion == '2') {contador = 21;lcd.clear();}
- if(pulsacion == '3') {contador = 22;lcd.clear();}
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 3;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '2') {contador = 21;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 22;lcd.clear();pulsacion = ' ';}
 }
 
 void menu_7(){      
@@ -66,7 +66,7 @@ void menu_7(){
  }
 
 void accion_7(){         
-// if(pulsacion == '#') {contador = 4;lcd.clear();}
+// if(pulsacion == '#') {contador = 4;lcd.clear();pulsacion = ' ';}
 }
 
 void menu_8(){     
@@ -76,7 +76,7 @@ void menu_8(){
  }
 
 void accion_8(){                
- if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();}
+ if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, LOW); act_d1 = true;
   }else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, HIGH); act_d1 = false;}
  if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, LOW); act_d2 = true;
@@ -127,7 +127,7 @@ void menu_9(){
 void accion_9(){ 
  if(pulsacion == 'A') {contador = 18;lcd.clear();}
  if(pulsacion == 'B') {contador = 17;lcd.clear();}
- if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();}
+ if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
  }
 
 void menu_10(){
@@ -140,7 +140,7 @@ void menu_10(){
 
 void accion_10(){
  reloj_1_print(); 
- if(pulsacion == '#') {contador = 1;lcd.clear();}
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '*') {
   tiempo_m = 0;
   now_1 = 0;

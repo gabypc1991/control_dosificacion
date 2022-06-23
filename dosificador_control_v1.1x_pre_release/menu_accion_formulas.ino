@@ -22,7 +22,7 @@ void menu_3(){
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
-   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
+   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
    reloj_1_print();
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
@@ -51,7 +51,7 @@ void accion_3(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -76,7 +76,7 @@ void accion_3(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -113,14 +113,16 @@ void menu_3_1(){
   lcd.setCursor(6,2); lcd.print(")");
   lcd.setCursor(13,1); lcd.print("MEZCLA");
   if(proc_comp == false){
-    lcd.setCursor(0,3); lcd.print("           Inicia ->");
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3); lcd.print("Inic->");
   }else if(proc_comp == true){
-    lcd.setCursor(0,3); lcd.print("           Volver<#>");
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3);lcd.print("Otra->");
   }  
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3_1(){ 
-   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
+   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
    reloj_1_print();
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
@@ -149,7 +151,7 @@ void accion_3_1(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -174,7 +176,7 @@ void accion_3_1(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -211,14 +213,16 @@ void menu_3_2(){
   lcd.setCursor(6,2); lcd.print(")");
   lcd.setCursor(13,1); lcd.print("MEZCLA");
   if(proc_comp == false){
-    lcd.setCursor(0,3); lcd.print("           Inicia ->");
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3); lcd.print("Inic->");
   }else if(proc_comp == true){
-    lcd.setCursor(0,3); lcd.print("           Volver<#>");
-  }  
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3);lcd.print("Otra->");
+  }   
 }
 /////////////////////Accion 3 //////////////////////////////
 void accion_3_2(){ 
-   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();}
+   if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
    reloj_1_print();
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
@@ -247,7 +251,7 @@ void accion_3_2(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -272,7 +276,7 @@ void accion_3_2(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(5000);
+      lcd.setCursor(11,0); lcd.print(" BAL_EST ");delay(t_estabilizacion);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -300,7 +304,7 @@ void estabilizacion(){
     
   bal_1 = balanza;  
   lcd.setCursor(11,0); lcd.print(" CONTROL ");
-  delay(4000);   
+  delay(t_delay_kilos);   
   bal_2 = balanza;    
   result_bal = bal_2 - bal_1;
   }

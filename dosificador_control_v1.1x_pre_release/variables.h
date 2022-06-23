@@ -1,3 +1,5 @@
+#define MENU_BALANZA 1
+
 const int pin_d1 = 36;
 const int pin_d2 = 34;
 const int pin_d3 = 32;
@@ -28,6 +30,9 @@ int f3D1 = 0;
 int f3D2 = 0;
 int f4D1 = 0;
 int f4D2 = 0;
+int t_estabilizacion = 2000;
+int t_delay_kilos = 3000;
+int t_delay_factor = 2;
 
 long latter_time;
 long difference;

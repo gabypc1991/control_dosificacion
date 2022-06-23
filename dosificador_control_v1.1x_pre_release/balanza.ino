@@ -7,7 +7,7 @@ void menu_6(){
  }
 
 void accion_6(){                 
- if(pulsacion == '#') {contador = 1;lcd.clear();}
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '*') {balanza_hx.tare(20);}                
  }
 
@@ -42,6 +42,7 @@ void accion_calibrar(){
     delay(800);
     user = false;
     pass_temp = "";
+    pulsacion = ' ';
     contador = 1;
     }
   }
