@@ -13,9 +13,11 @@ void menu_3(){
   lcd.setCursor(6,2); lcd.print(")");
   lcd.setCursor(13,1); lcd.print("MEZCLA");
   if(proc_comp == false){
-    lcd.setCursor(0,3); lcd.print("           Inicia ->");
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3); lcd.print("Inic->");
   }else if(proc_comp == true){
-    lcd.setCursor(0,3); lcd.print("           Volver<#>");
+    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
+    lcd.setCursor(14,3);lcd.print("Otra->");
   }  
 }
 /////////////////////Accion 3 //////////////////////////////

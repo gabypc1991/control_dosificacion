@@ -1,9 +1,22 @@
+void menu_6(){ 
+ lcd.setCursor(0,0); lcd.print("       BALANZA      ");
+ lcd.setCursor(0,1); lcd.print("      TARA  <*>     ");
+ lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+ lcd.setCursor(11,2); lcd.print(balanza);lcd.print("   ");
+ lcd.setCursor(0,3); lcd.print("          Volver <#>");            
+ }
+
+void accion_6(){                 
+ if(pulsacion == '#') {contador = 1;lcd.clear();}
+ if(pulsacion == '*') {balanza_hx.tare(20);}                
+ }
+
 void calibrar_balanza(){ 
-      lcd.setCursor(0,0); lcd.print("Factor:");
-      lcd.setCursor(0,1); lcd.print("COLOQUE PESO DE REF.");
-      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
-      lcd.setCursor(0,3); lcd.print("1>+ | 2>-  Enter <#>");            
-    }
+ lcd.setCursor(0,0); lcd.print("Factor:");
+ lcd.setCursor(0,1); lcd.print("COLOQUE PESO DE REF.");
+ lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+ lcd.setCursor(0,3); lcd.print("1>+ | 2>-  Enter <#>");            
+ }
 
 void accion_calibrar(){
   balanza_hx.set_scale(factor_temp);        
