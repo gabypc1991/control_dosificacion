@@ -11,7 +11,7 @@ void menu_3(){
   lcd.setCursor(0,2); lcd.print("D2(");
   lcd.setCursor(3,2); lcd.print(f1D2);
   lcd.setCursor(6,2); lcd.print(")");
-  lcd.setCursor(13,1); lcd.print("MEZCLA");
+  if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
   if(proc_comp == false){
     lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
     lcd.setCursor(14,3); lcd.print("Inic->");
@@ -111,7 +111,7 @@ void menu_3_1(){
   lcd.setCursor(0,2); lcd.print("D2(");
   lcd.setCursor(3,2); lcd.print(f2D2);
   lcd.setCursor(6,2); lcd.print(")");
-  lcd.setCursor(13,1); lcd.print("MEZCLA");
+  if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
   if(proc_comp == false){
     lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
     lcd.setCursor(14,3); lcd.print("Inic->");
@@ -211,7 +211,7 @@ void menu_3_2(){
   lcd.setCursor(0,2); lcd.print("D2(");
   lcd.setCursor(3,2); lcd.print(f3D2);
   lcd.setCursor(6,2); lcd.print(")");
-  lcd.setCursor(13,1); lcd.print("MEZCLA");
+  if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
   if(proc_comp == false){
     lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
     lcd.setCursor(14,3); lcd.print("Inic->");
