@@ -16,35 +16,31 @@ void botonera(){
   if(act_in4 != last_in4){if(act_in4 != true && boton_in4 == false){boton_in4 = true;}else if(act_in4 != true && boton_in4 == true){boton_in4 = false;}last_in4 = act_in4;}
   }
 
-void mezclador(){
-  
-  if(boton_in4 == true){ 
-    if(tiempo_m == 0 && ciclo_mezcla != true){tiempo_m = t_mezcla;}     
-      if(tiempo_m > 0){     
-        digitalWrite(pin_d4, HIGH);
-        tiempo_m -= 100;
-        reloj_1(tiempo_m);        
+void mezclador(){  
+ if(boton_in4 == true){ 
+  if(ciclo_mezcla == false){tiempo_m = 36000;}     // t_mezcla
+  if(tiempo_m > 0){
+   ciclo_mezcla = true;     
+   digitalWrite(pin_d4, HIGH);
+   tiempo_m -= 100;
+   reloj_1(tiempo_m);        
+   }else{        
+     tiempo_m = 0;
+     if(ciclo_descarga != true){tiempo_d = 50000;} //t_descarga
+     if(tiempo_d > 0){
+      ciclo_descarga = true;     
+      digitalWrite(pin_d4, LOW);
+      tiempo_d -= 100;
+      reloj_1(tiempo_d);        
       }else{
-        ciclo_mezcla = true;
-        tiempo_m = 0;
-        if(tiempo_d == 0 && ciclo_descarga != true){tiempo_d = t_descarga;}
-        }
-   if(tiempo_d > 0){     
-    digitalWrite(pin_d4, LOW);
-    tiempo_d -= 100;
-    reloj_1(tiempo_d);        
-    }else{
-      ciclo_descarga = false;
-      ciclo_mezcla = false;
-      boton_in4 = false;
-      tiempo_m = 0;
-      tiempo_d = 0;
+       ciclo_descarga = false;
+       ciclo_mezcla = false;
+       boton_in4 = false;
+       tiempo_m = 0;
+       tiempo_d = 0;
+       }
+     }
       
-//        now_1 = 0;
-//        hour_1=0;
-//        minutes_1=0;
-//        segundo_1=0;
-    }
    }else{
     digitalWrite(pin_d4, HIGH);
     ciclo_descarga = false;

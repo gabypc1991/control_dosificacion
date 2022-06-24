@@ -1,7 +1,3 @@
-void ms_to_hora(int ms){
-  
-  }
-  
 void reloj() {
   if(tiempo > now + 9){//cada segunto
     now = tiempo;    
@@ -32,7 +28,7 @@ void reloj() {
  }
 }
 
-void reloj_1(int ms) {
+void reloj_1(long ms) {
  int seg = ms / 1000;
  seg = seg % 60;
  int minutos = seg / 60;
