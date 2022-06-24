@@ -12,6 +12,8 @@ const int in_4 = 4;
 
 String pass_temp = "";
 bool user = false;
+bool ciclo_mezcla;
+bool ciclo_descarga;
 
 float factor;
 float factor_temp;
@@ -21,6 +23,7 @@ int result_bal;
 int tara = 0;
 bool estab_comp = false;
 int t_mezcla;
+int t_descarga = 180000;
 
 int f1D1 = 0;
 int f1D2 = 0;
@@ -64,6 +67,7 @@ int hour = 0;
 int segundo = 0;
 
 int tiempo_m = 0;
+int tiempo_d = 0;
 int now_1 = 0;
 int minutes_1 = 0;
 int hour_1 = 0;
