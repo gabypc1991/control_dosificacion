@@ -1,4 +1,4 @@
-void reloj() {
+void reloj(int col, int fil) {
   if(tiempo > now + 9){//cada segunto
     now = tiempo;    
     segundo++;
@@ -16,10 +16,7 @@ void reloj() {
     minutes=0;
     segundo=0;
   }
-  lcd.setCursor(pos_col,pos_fil);
-  if(hour<10)lcd.print("0");
-  lcd.print(hour);
-  lcd.print(":");
+  lcd.setCursor(col, fil);  
   if(minutes<10)lcd.print("0");
   lcd.print(minutes);
   lcd.print(":");
@@ -31,37 +28,18 @@ void reloj() {
 void reloj_1(long ms) {
  int seg = ms / 1000;
  seg = seg % 60;
- int minutos = seg / 60;
+ int minutos = (ms / 1000) / 60;
  minutos = minutos % 60;
- int horas = minutos / 60;
+ int horas = ((ms / 1000) / 60) / 60;
  horas = horas % 60;
 
  segundo_1 = seg;
  minutes_1 = minutos;
  hour_1 = horas;
+ }
 
-/*
-  now_1 = tiempo_m;    
-  segundo_1++;
-  if(segundo_1>59){
-   minutes_1++;
-   segundo_1=0;
-   }
-  if(minutes_1>59){
-   hour_1++;
-   minutes_1=0;
-   segundo_1=0;
-   }
-  if(hour_1>=24){
-   hour_1=0;
-   minutes_1=0;
-   segundo_1=0;
-   }
-*/ 
-}
-
-void reloj_1_print() {  
-  lcd.setCursor(pos_col1,pos_fil1);
+void reloj_1_print(int col, int fil) {  
+  lcd.setCursor(col, fil);
   if(minutes_1<10)lcd.print("0");
   lcd.print(minutes_1);
   lcd.print(":");

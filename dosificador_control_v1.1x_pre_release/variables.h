@@ -54,10 +54,10 @@ byte num_times_pressed = 0;
 String text;
 char last_character = ' ';
 char pulsacion;       // almacena la tecla pulsada
-int pos_col = 0;
-int pos_fil = 0;
-int pos_col1 = 0;
-int pos_fil1 = 0;
+//int pos_col = 0;
+//int pos_fil = 0;
+//int pos_col1 = 0;
+//int pos_fil1 = 0;
 String myString = "";
 
 int tiempo = 0;

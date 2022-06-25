@@ -41,8 +41,8 @@ void accion_2(){
 }
 
 void menu_7(){      
- pos_col = 12;
- pos_fil = 2;
+ //pos_col = 12;
+ //pos_fil = 2;
  lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
  lcd.setCursor(0,1); lcd.print("                     ");
  lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
@@ -50,7 +50,7 @@ void menu_7(){
 
  while(edit != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
-  readVal();
+  readVal(12, 2);
   edit = true;
   t_mezcla = myString.toInt();
   t_mezcla = t_mezcla * 600;
@@ -100,12 +100,12 @@ void accion_8(){
 void menu_9(){ 
  String pass = "1234";
  if(user != true){
-  pos_col = 4;
-  pos_fil = 1;
+  //pos_col = 4;
+  //pos_fil = 1;
   lcd.setCursor(0,0); lcd.print("PASSWORD");
   lcd.setCursor(0,1); lcd.print("-->");
   lcd.setCursor(0,3); lcd.print("Enter <#>");
-  readVal();
+  readVal(4, 1);
   pass_temp = myString;
   user = true;
   }
@@ -131,15 +131,15 @@ void accion_9(){
  }
 
 void menu_10(){
- pos_col1 = 8;
- pos_fil1 = 2; 
+// pos_col1 = 8;
+// pos_fil1 = 2; 
  lcd.setCursor(0,0); lcd.print("      MEZCLADOR     ");
  lcd.setCursor(0,1); lcd.print("  TIEMPO DE PROCESO ");
  lcd.setCursor(0,3); lcd.print("Volver<#>   Reini<*>");
  }
 
 void accion_10(){
- reloj_1_print(); 
+ reloj_1_print(8, 2); 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '*') {
   tiempo_m = 0;

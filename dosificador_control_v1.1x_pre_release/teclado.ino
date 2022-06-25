@@ -1,11 +1,11 @@
-String readVal(){
+String readVal(int col, int fil){
   myString = "";
   char keyPressed = Teclado1.getKey();
   while (keyPressed != '#'){
     keyPressed = Teclado1.getKey();
     if ((keyPressed != NO_KEY) && (keyPressed != '#')) {
       myString.concat(keyPressed);
-      lcd.setCursor(pos_col,pos_fil);lcd.print(myString);
+      lcd.setCursor(col,fil);lcd.print(myString);
       
       }   
     }  

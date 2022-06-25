@@ -1,9 +1,9 @@
 /////////////////////Menu_3  //////////////////////////////////
 void menu_3(){
-  pos_col = 11;
-  pos_fil = 0;
-  pos_col1 = 14;
-  pos_fil1 = 2; 
+//  pos_col = 11;
+//  pos_fil = 0;
+//  pos_col1 = 14;
+//  pos_fil1 = 2; 
   lcd.setCursor(0,0); lcd.print("Form.1   t:");
   lcd.setCursor(0,1); lcd.print("D1(");
   lcd.setCursor(3,1); lcd.print(f1D1);
@@ -23,7 +23,7 @@ void menu_3(){
 /////////////////////Accion 3 //////////////////////////////
 void accion_3(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
-   reloj_1_print();
+   reloj_1_print(14, 2);
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
    proc_activo = true;
@@ -45,8 +45,8 @@ void accion_3(){
          if(peso_d1 > (f1D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
          delay(100);            
          }
@@ -70,8 +70,8 @@ void accion_3(){
          if(peso_d2 > (f1D2 / 2) && estab_comp != true){digitalWrite(pin_d2, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d2, LOW); act_d2 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
          delay(100);            
          }
@@ -100,10 +100,10 @@ void accion_3(){
 
 /////////////////////Menu_3  //////////////////////////////////
 void menu_3_1(){
-  pos_col = 11;
-  pos_fil = 0;
-  pos_col1 = 14;
-  pos_fil1 = 2; 
+//  pos_col = 11;
+//  pos_fil = 0;
+//  pos_col1 = 14;
+//  pos_fil1 = 2; 
   lcd.setCursor(0,0); lcd.print("Form.2   t:");
   lcd.setCursor(0,1); lcd.print("D1(");
   lcd.setCursor(3,1); lcd.print(f2D1);
@@ -123,7 +123,7 @@ void menu_3_1(){
 /////////////////////Accion 3 //////////////////////////////
 void accion_3_1(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
-   reloj_1_print();
+   reloj_1_print(14, 2);
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
    proc_activo = true;
@@ -145,8 +145,8 @@ void accion_3_1(){
          if(peso_d1 > (f2D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
          delay(100);            
          }
@@ -170,8 +170,8 @@ void accion_3_1(){
          if(peso_d2 > (f2D2 / 2) && estab_comp != true){digitalWrite(pin_d2, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d2, LOW); act_d2 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
          delay(100);            
          }
@@ -198,12 +198,11 @@ void accion_3_1(){
     }    
   }
 
-/////////////////////Menu_3  //////////////////////////////////
 void menu_3_2(){
-  pos_col = 11;
-  pos_fil = 0;
-  pos_col1 = 14;
-  pos_fil1 = 2; 
+//  pos_col = 11;
+//  pos_fil = 0;
+//  pos_col1 = 14;
+//  pos_fil1 = 2; 
   lcd.setCursor(0,0); lcd.print("Form.3   t:");
   lcd.setCursor(0,1); lcd.print("D1(");
   lcd.setCursor(3,1); lcd.print(f3D1);
@@ -223,7 +222,7 @@ void menu_3_2(){
 /////////////////////Accion 3 //////////////////////////////
 void accion_3_2(){ 
    if(pulsacion == '#') {contador = 1;proc_comp = false;lcd.clear();pulsacion = ' ';}
-   reloj_1_print();
+   reloj_1_print(14, 2);
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
    proc_activo = true;
@@ -245,8 +244,8 @@ void accion_3_2(){
          if(peso_d1 > (f3D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
          delay(100);            
          }
@@ -270,8 +269,8 @@ void accion_3_2(){
          if(peso_d2 > (f3D2 / 2) && estab_comp != true){digitalWrite(pin_d2, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d2, LOW); act_d2 = true;
          tiempo += 1;
-         reloj();
-         reloj_1_print();
+         reloj(11, 0);
+         reloj_1_print(14, 2);
          lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
          delay(100);            
          }
