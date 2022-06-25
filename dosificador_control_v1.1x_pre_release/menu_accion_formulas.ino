@@ -32,12 +32,14 @@ void accion_3(){
        int peso_temp;
        int peso_d1;
        int peso_d2;
+       if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
 
      if(f1D1 != 0){   
        while(peso_temp < (f1D1 - result_bal)) {      
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
@@ -63,6 +65,7 @@ void accion_3(){
     if(f1D2 != 0){  
       while(peso_temp < (f1D2 - result_bal)){
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza - peso_d1;
@@ -97,6 +100,7 @@ void accion_3(){
       delay(1000);
     }    
   }
+  
 
 /////////////////////Menu_3  //////////////////////////////////
 void menu_3_1(){
@@ -132,12 +136,14 @@ void accion_3_1(){
        int peso_temp;
        int peso_d1;
        int peso_d2;
+       if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
 
      if(f2D1 != 0){   
        while(peso_temp < (f2D1 - result_bal)) {      
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
@@ -163,6 +169,7 @@ void accion_3_1(){
     if(f2D2 != 0){  
       while(peso_temp < (f2D2 - result_bal)){
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza - peso_d1;
@@ -231,12 +238,14 @@ void accion_3_2(){
        int peso_temp;
        int peso_d1;
        int peso_d2;
+       if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
        lcd.setCursor(0,3);lcd.print("                    ");
        lcd.setCursor(0,3);lcd.print("Bal.Kg:");
 
      if(f3D1 != 0){   
        while(peso_temp < (f3D1 - result_bal)) {      
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
@@ -262,6 +271,7 @@ void accion_3_2(){
     if(f3D2 != 0){  
       while(peso_temp < (f3D2 - result_bal)){
          pulsacion = Teclado1.getKey();
+         if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza - peso_d1;
