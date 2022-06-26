@@ -18,7 +18,7 @@ void botonera(){
 
 void mezclador(){  
  if(boton_in4 == true){ 
-  if(ciclo_mezcla == false){tiempo_m = 36000;}     // t_mezcla
+  if(ciclo_mezcla == false){tiempo_m = t_mezcla * 1000;}     // t_mezcla
   if(tiempo_m > 0){
    ciclo_mezcla = true;     
    digitalWrite(pin_d4, HIGH);

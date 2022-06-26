@@ -1,26 +1,26 @@
 void menu_1(){ 
  lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
  lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
- lcd.setCursor(0,2); lcd.print("MEZCLADO          >3");
+ lcd.setCursor(0,2); lcd.print("BALANZA           >3");
  lcd.setCursor(12,3); lcd.print("Mas..<#>");
 }
 
 void accion_1(){ 
  if(pulsacion == '1') {contador = 2;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '2') {contador = 4;lcd.clear(); pulsacion = ' ';}
- if(pulsacion == '3') {contador = 20;lcd.clear(); pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 14;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '#') {contador = 16;lcd.clear(); pulsacion = ' ';}
 }
 
 void menu_1_2(){ 
- lcd.setCursor(0,0); lcd.print("BALANZA           >1");
+ lcd.setCursor(0,0); lcd.print("TIEMPO DESCARGA   >1");
  lcd.setCursor(0,1); lcd.print("TIEMPO MEZCLA     >2");
  lcd.setCursor(0,2); lcd.print("AJUSTES           >3");
  lcd.setCursor(10,3); lcd.print("Volver <#>");
 }
 
 void accion_1_2(){ 
- if(pulsacion == '1') {contador = 14;lcd.clear(); pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 20;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '2') {contador = 15;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '3') {contador = 19;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '#') {contador = 1;lcd.clear(); pulsacion = ' ';}
@@ -43,23 +43,63 @@ void accion_2(){
 void menu_7(){      
  //pos_col = 12;
  //pos_fil = 2;
+ bool edit_m = false;
+ bool edit_s = false;
+ int t_mezcla_m;
+ int t_mezcla_s;
  lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
  lcd.setCursor(0,1); lcd.print("                     ");
- lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+ reloj_1(t_mezcla * 1000);
+ reloj_1_print(11, 1);
  lcd.setCursor(0,2); lcd.print("Set Minutos:");
 
- while(edit != true){
+ while(edit_m != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
   readVal(12, 2);
-  edit = true;
-  t_mezcla = myString.toInt();
-  t_mezcla = t_mezcla * 600;
-  EEPROM.put(12, t_mezcla);   
-  lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
-  lcd.setCursor(0,3); lcd.print("CORRECTO");
-  delay(800);
+  if(myString != ""){
+   edit_m = true;
+   t_mezcla_m = myString.toInt();
+   t_mezcla_m = t_mezcla_m * 60;
+//   EEPROM.put(12, t_mezcla);   
+   reloj_1(t_mezcla * 1000);
+   reloj_1_print(11, 1);
+//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_m = true;
+    }
   }
- edit = false;
+
+ lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
+ lcd.setCursor(0,1); lcd.print("                     ");
+// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+ reloj_1(t_mezcla * 1000);
+ reloj_1_print(11, 1);
+ lcd.setCursor(0,2); lcd.print("Set Segundo:");
+ 
+ while(edit_s != true){
+  lcd.setCursor(0,3); lcd.print("           Enter <#>");
+  readVal(12, 2);
+  if(myString != ""){
+   edit_s = true;
+   t_mezcla_s = myString.toInt();
+   t_mezcla = t_mezcla_m + t_mezcla_s;
+   EEPROM.put(12, t_mezcla);
+   reloj_1(t_mezcla * 1000);
+   reloj_1_print(11, 1);   
+//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_s = true;
+    }
+  }
+ segundo_1 = 0;
+ minutes_1 = 0;
+ edit_m = false;
+ edit_s = false;
  pulsacion = ' ';
  contador = 1;
  lcd.clear();
@@ -113,7 +153,7 @@ void menu_9(){
  if(pass_temp == pass && user == true){
   lcd.setCursor(0,0); lcd.print("CALIBRAR BALANZA  >A");
   lcd.setCursor(0,1); lcd.print("ESTADO IO         >B");
-  lcd.setCursor(0,2); lcd.print("                    ");
+  lcd.setCursor(0,2); lcd.print("PARAMETROS        >C");
   lcd.setCursor(0,3); lcd.print("Volver <#>");
   }else{
    lcd.setCursor(0,2); lcd.print("error");
@@ -125,8 +165,9 @@ void menu_9(){
  }
 
 void accion_9(){ 
- if(pulsacion == 'A') {contador = 18;lcd.clear();}
- if(pulsacion == 'B') {contador = 17;lcd.clear();}
+ if(pulsacion == 'A') {contador = 18;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == 'B') {contador = 17;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == 'B') {contador = 17;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
  }
 

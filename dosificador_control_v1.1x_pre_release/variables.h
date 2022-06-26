@@ -23,7 +23,7 @@ int result_bal;
 int tara = 0;
 bool estab_comp = false;
 long t_mezcla;
-long t_descarga = 180000;
+long t_descarga;
 
 int f1D1 = 0;
 int f1D2 = 0;
