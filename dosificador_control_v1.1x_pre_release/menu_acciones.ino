@@ -20,7 +20,7 @@ void menu_1_2(){
 }
 
 void accion_1_2(){ 
- if(pulsacion == '1') {contador = 20;lcd.clear(); pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 13;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '2') {contador = 15;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '3') {contador = 19;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '#') {contador = 1;lcd.clear(); pulsacion = ' ';}
@@ -51,7 +51,9 @@ void menu_7(){
  lcd.setCursor(0,1); lcd.print("                     ");
 // lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
  reloj_1(t_mezcla * 1000);
- reloj_1_print(11, 1);
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("-->>");
+ lcd.setCursor(12,1); lcd.print("    ");
  lcd.setCursor(0,2); lcd.print("Set Minutos:");
 
  while(edit_m != true){
@@ -63,7 +65,7 @@ void menu_7(){
    t_mezcla_m = t_mezcla_m * 60;
 //   EEPROM.put(12, t_mezcla);   
    reloj_1(t_mezcla * 1000);
-   reloj_1_print(11, 1);
+   reloj_1_print(7, 1);
 //   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
    lcd.setCursor(0,3); lcd.print("CORRECTO");
    delay(800);
@@ -75,8 +77,10 @@ void menu_7(){
  lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
  lcd.setCursor(0,1); lcd.print("                     ");
 // lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
- reloj_1(t_mezcla * 1000);
- reloj_1_print(11, 1);
+ reloj_1(t_mezcla * 1000); 
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("    ");
+ lcd.setCursor(12,1); lcd.print("<<--");
  lcd.setCursor(0,2); lcd.print("Set Segundo:");
  
  while(edit_s != true){
@@ -87,8 +91,8 @@ void menu_7(){
    t_mezcla_s = myString.toInt();
    t_mezcla = t_mezcla_m + t_mezcla_s;
    EEPROM.put(12, t_mezcla);
-   reloj_1(t_mezcla * 1000);
-   reloj_1_print(11, 1);   
+   reloj_1(t_mezcla * 1000);   
+   reloj_1_print(7, 1);   
 //   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
    lcd.setCursor(0,3); lcd.print("CORRECTO");
    delay(800);
@@ -101,7 +105,7 @@ void menu_7(){
  edit_m = false;
  edit_s = false;
  pulsacion = ' ';
- contador = 1;
+ contador = 16;
  lcd.clear();
  }
 
@@ -115,8 +119,7 @@ void menu_8(){
  lcd.setCursor(12,3); lcd.print("Volv.<#>");
  }
 
-void accion_8(){                
- if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
+void accion_8(){
  if(pulsacion == '1' && act_d1 == false) {digitalWrite(pin_d1, LOW); act_d1 = true;
   }else if(pulsacion == '1' && act_d1 == true){digitalWrite(pin_d1, HIGH); act_d1 = false;}
  if(pulsacion == '2' && act_d2 == false) {digitalWrite(pin_d2, LOW); act_d2 = true;
@@ -135,6 +138,8 @@ void accion_8(){
  if(act_in2 == true){lcd.setCursor(3,3); lcd.print("<-|");}else{lcd.setCursor(3,3); lcd.print("  |");}
  if(act_in3 == true){lcd.setCursor(6,3); lcd.print("<-|");}else{lcd.setCursor(6,3); lcd.print("  |");}
  if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
+ 
+ if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
  }
 
 void menu_9(){ 
@@ -160,7 +165,8 @@ void menu_9(){
    delay(800);
    user = false;
    pass_temp = "";
-   contador = 1;  
+   contador = 1;
+   lcd.clear();  
    }
  }
 
@@ -190,3 +196,76 @@ void accion_10(){
   segundo_1=0;
   }
  }
+
+void menu_edicionTDescarga(){      
+ //pos_col = 12;
+ //pos_fil = 2;
+ bool edit_m = false;
+ bool edit_s = false;
+ int t_descarga_m;
+ int t_descarga_s;
+ lcd.setCursor(0,0); lcd.print(" TIEMPO DE DESCARGA  ");
+ lcd.setCursor(0,1); lcd.print("                     ");
+// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+ reloj_1(t_descarga * 1000);
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("-->>");
+ lcd.setCursor(12,1); lcd.print("    ");
+ lcd.setCursor(0,2); lcd.print("Set Minutos:");
+
+ while(edit_m != true){
+  lcd.setCursor(0,3); lcd.print("           Enter <#>");
+  readVal(12, 2);
+  if(myString != ""){
+   edit_m = true;
+   t_descarga_m = myString.toInt();
+   t_descarga_m = t_descarga_m * 60;
+//   EEPROM.put(12, t_mezcla);   
+   reloj_1(t_descarga * 1000);
+   reloj_1_print(7, 1);
+//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_m = true;
+    }
+  }
+
+ lcd.setCursor(0,0); lcd.print(" TIEMPO DE DESCARGA  ");
+ lcd.setCursor(0,1); lcd.print("                     ");
+// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+ reloj_1(t_descarga * 1000); 
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("    ");
+ lcd.setCursor(12,1); lcd.print("<<--");
+ lcd.setCursor(0,2); lcd.print("Set Segundo:");
+ 
+ while(edit_s != true){
+  lcd.setCursor(0,3); lcd.print("           Enter <#>");
+  readVal(12, 2);
+  if(myString != ""){
+   edit_s = true;
+   t_descarga_s = myString.toInt();
+   t_descarga = t_descarga_m + t_descarga_s;
+   EEPROM.put(32, t_descarga);
+   reloj_1(t_descarga * 1000);   
+   reloj_1_print(7, 1);   
+//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_s = true;
+    }
+  }
+ segundo_1 = 0;
+ minutes_1 = 0;
+ edit_m = false;
+ edit_s = false;
+ pulsacion = ' ';
+ contador = 16;
+ lcd.clear();
+ }
+
+void accion_edicionTDescarga(){         
+// if(pulsacion == '#') {contador = 4;lcd.clear();pulsacion = ' ';}
+}

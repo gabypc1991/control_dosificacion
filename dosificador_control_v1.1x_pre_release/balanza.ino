@@ -44,5 +44,6 @@ void accion_calibrar(){
     pass_temp = "";
     pulsacion = ' ';
     contador = 1;
+    lcd.clear();
     }
   }

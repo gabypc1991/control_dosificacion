@@ -1,5 +1,5 @@
 void reloj(int col, int fil) {
-  if(tiempo > now + 9){//cada segunto
+  if(tiempo > now + 6){
     now = tiempo;    
     segundo++;
   if(segundo>59){
@@ -16,7 +16,10 @@ void reloj(int col, int fil) {
     minutes=0;
     segundo=0;
   }
-  lcd.setCursor(col, fil);  
+  lcd.setCursor(col, fil);
+  if(hour<10)lcd.print("0");
+  lcd.print(hour);
+  lcd.print(":");  
   if(minutes<10)lcd.print("0");
   lcd.print(minutes);
   lcd.print(":");

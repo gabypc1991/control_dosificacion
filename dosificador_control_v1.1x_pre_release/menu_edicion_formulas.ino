@@ -18,16 +18,20 @@ void accion_4(){
       lcd.setCursor(0,0); lcd.print("      Formula 1     ");
       lcd.setCursor(0,1); lcd.print("   DOSIS 1: ");lcd.print("(");lcd.print(f1D1);lcd.print(")");
       lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
-      lcd.setCursor(12,2);
+//      lcd.setCursor(12,2);
       while(edit != true){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal(11, 2);
-        edit = true;
-        f1D1 = myString.toInt();
-        EEPROM.put(0, f1D1);        
-        lcd.setCursor(12,2); lcd.print(f1D1);
-        lcd.setCursor(0,3); lcd.print("CORRECTO");
-        delay(800);               
+        if(myString != ""){
+         edit = true;
+         f1D1 = myString.toInt();
+         EEPROM.put(0, f1D1);        
+         lcd.setCursor(11,2); lcd.print(f1D1);
+         lcd.setCursor(0,3); lcd.print("CORRECTO");
+         delay(800);
+         }else{
+           edit = true;
+           }              
         }
         contador = 4;
         edit = false; 
@@ -46,17 +50,20 @@ void accion_4(){
       lcd.setCursor(0,0); lcd.print("      Formula 1     ");
       lcd.setCursor(0,1); lcd.print("   DOSIS 2: ");lcd.print("(");lcd.print(f1D2);lcd.print(")");
       lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
-      lcd.setCursor(12,2); lcd.print(f1D2);
+//      lcd.setCursor(12,2); lcd.print(f1D2);
       while(edit != true){
         lcd.setCursor(0,3); lcd.print("           Enter <#>");
         readVal(11, 2);
-        edit = true;
-        f1D2 = myString.toInt();        
-        EEPROM.put(4, f1D2);          
-        lcd.setCursor(12,2); lcd.print(f1D2);
-        lcd.setCursor(0,3); lcd.print("CORRECTO");
-        delay(800);
-           
+        if(myString != ""){
+         edit = true;
+         f1D2 = myString.toInt();        
+         EEPROM.put(4, f1D2);          
+         lcd.setCursor(11,2); lcd.print(f1D2);
+         lcd.setCursor(0,3); lcd.print("CORRECTO");
+         delay(800);
+         }else{
+           edit = true;
+           }           
         }
         edit = false;
         contador = 4;
@@ -64,7 +71,7 @@ void accion_4(){
     }
 
 void accion_4_2(){ 
-// if(pulsacion == '*') {contador = 4;edit = false;lcd.clear();}
+// if(pulsacion == '*') {contador = 4;edit = false;lcd.clear();pulsacion = ' ';}
    }
 
 void menu_5(){ 
@@ -87,16 +94,20 @@ void menu_5_1(){
  lcd.setCursor(0,0); lcd.print("      Formula 2     ");
  lcd.setCursor(0,1); lcd.print("   DOSIS 1: ");lcd.print("(");lcd.print(f2D1);lcd.print(")");
  lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
- lcd.setCursor(12,2); lcd.print(f2D1);
+// lcd.setCursor(12,2); lcd.print(f2D1);
  while(edit != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
   readVal(11, 2);
-  edit = true;
-  f2D1 = myString.toInt();
-  EEPROM.put(16, f2D1);        
-  lcd.setCursor(12,2); lcd.print(f2D1);
-  lcd.setCursor(0,3); lcd.print("CORRECTO");
-  delay(800);               
+  if(myString != ""){
+   edit = true;
+   f2D1 = myString.toInt();
+   EEPROM.put(16, f2D1);        
+   lcd.setCursor(11,2); lcd.print(f2D1);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+     edit = true;
+     }              
   }
  contador = 9;
  edit = false; 
@@ -104,7 +115,7 @@ void menu_5_1(){
  }
 
 void accion_5_1(){ 
-// if(pulsacion == '*') {contador = 11;lcd.clear();}
+// if(pulsacion == '*') {contador = 11;lcd.clear();pulsacion = ' ';}
    }
 
 void menu_5_2(){ 
@@ -113,16 +124,20 @@ void menu_5_2(){
  lcd.setCursor(0,0); lcd.print("      Formula 2     ");
  lcd.setCursor(0,1); lcd.print("   DOSIS 2: ");lcd.print("(");lcd.print(f2D2);lcd.print(")");
  lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
- lcd.setCursor(12,2); lcd.print(f2D2);
+// lcd.setCursor(12,2); lcd.print(f2D2);
  while(edit != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
   readVal(11, 2);
-  edit = true;
-  f2D2 = myString.toInt();
-  EEPROM.put(20, f2D2);        
-  lcd.setCursor(12,2); lcd.print(f2D2);
-  lcd.setCursor(0,3); lcd.print("CORRECTO");
-  delay(800);               
+  if(myString != ""){
+   edit = true;
+   f2D2 = myString.toInt();
+   EEPROM.put(20, f2D2);        
+   lcd.setCursor(11,2); lcd.print(f2D2);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800); 
+   }else{
+     edit = true;
+     }              
   }
  contador = 9;
  edit = false; 
@@ -130,7 +145,7 @@ void menu_5_2(){
  }
 
 void accion_5_2(){ 
-// if(pulsacion == '*') {contador = 12;lcd.clear();}
+// if(pulsacion == '*') {contador = 12;lcd.clear();pulsacion = ' ';}
    }
 
 void menu_11(){ 
@@ -141,9 +156,9 @@ void menu_11(){
  }
 
 void accion_11(){ 
- if(pulsacion == '#') {contador = 1;lcd.clear();}
- if(pulsacion == 'A') {contador = 24;lcd.clear();}
- if(pulsacion == 'B') {contador = 25;lcd.clear();}
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == 'A') {contador = 24;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == 'B') {contador = 25;lcd.clear();pulsacion = ' ';}
  }
 
 void menu_11_1(){ 
@@ -152,16 +167,20 @@ void menu_11_1(){
  lcd.setCursor(0,0); lcd.print("      Formula 3     ");
  lcd.setCursor(0,1); lcd.print("   DOSIS 1: ");lcd.print("(");lcd.print(f3D1);lcd.print(")");
  lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
- lcd.setCursor(12,2); lcd.print(f3D1);
+// lcd.setCursor(12,2); lcd.print(f3D1);
  while(edit != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
   readVal(11, 2);
-  edit = true;
-  f3D1 = myString.toInt();
-  EEPROM.put(24, f3D1);        
-  lcd.setCursor(12,2); lcd.print(f3D1);
-  lcd.setCursor(0,3); lcd.print("CORRECTO");
-  delay(800);               
+  if(myString != ""){
+   edit = true;
+   f3D1 = myString.toInt();
+   EEPROM.put(24, f3D1);        
+   lcd.setCursor(11,2); lcd.print(f3D1);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+     edit = true;
+     }               
   }
  contador = 23;
  edit = false; 
@@ -169,7 +188,7 @@ void menu_11_1(){
  }
 
 void accion_11_1(){ 
-// if(pulsacion == '*') {contador = 11;lcd.clear();}
+// if(pulsacion == '*') {contador = 11;lcd.clear();pulsacion = ' ';}
    }
 
 
@@ -179,16 +198,20 @@ void menu_11_2(){
  lcd.setCursor(0,0); lcd.print("      Formula 3     ");
  lcd.setCursor(0,1); lcd.print("   DOSIS 2: ");lcd.print("(");lcd.print(f3D2);lcd.print(")");
  lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
- lcd.setCursor(12,2); lcd.print(f3D2);
+// lcd.setCursor(12,2); lcd.print(f3D2);
  while(edit != true){
   lcd.setCursor(0,3); lcd.print("           Enter <#>");
   readVal(11, 2);
-  edit = true;
-  f3D2 = myString.toInt();
-  EEPROM.put(28, f3D2);        
-  lcd.setCursor(12,2); lcd.print(f3D2);
-  lcd.setCursor(0,3); lcd.print("CORRECTO");
-  delay(800);               
+  if(myString != ""){
+   edit = true;
+   f3D2 = myString.toInt();
+   EEPROM.put(28, f3D2);        
+   lcd.setCursor(11,2); lcd.print(f3D2);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);  
+   }else{
+     edit = true;
+     }             
   }
  contador = 23;
  edit = false; 
@@ -196,5 +219,5 @@ void menu_11_2(){
  }
 
 void accion_11_2(){ 
-// if(pulsacion == '*') {contador = 11;lcd.clear();}
+// if(pulsacion == '*') {contador = 11;lcd.clear();pulsacion = ' ';}
    }

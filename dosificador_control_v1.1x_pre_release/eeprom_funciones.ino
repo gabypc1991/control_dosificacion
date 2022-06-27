@@ -7,4 +7,5 @@ void eeprom_get_inicio(){
   EEPROM.get(20, f2D2);
   EEPROM.get(24, f3D1);
   EEPROM.get(28, f3D2);
+  EEPROM.get(32, t_descarga);
   }

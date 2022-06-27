@@ -71,7 +71,7 @@ void loop() {
  if(contador == 16){ menu_1_2();accion_1_2();}
  if(contador == 15){ menu_7();accion_7();}
  if(contador == 14){ menu_6();accion_6();} 
-// if(contador == 13){ menu_5_4();accion_5_4();}
+ if(contador == 13){ menu_edicionTDescarga();accion_edicionTDescarga();}
 // if(contador == 12){ menu_5_3();accion_5_3();}
  if(contador == 11){ menu_5_2();accion_5_2();}
  if(contador == 10){ menu_5_1();accion_5_1();}

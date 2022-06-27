@@ -26,7 +26,7 @@ void mezclador(){
    reloj_1(tiempo_m);        
    }else{        
      tiempo_m = 0;
-     if(ciclo_descarga != true){tiempo_d = 50000;} //t_descarga
+     if(ciclo_descarga != true){tiempo_d = t_descarga * 1000;} //t_descarga
      if(tiempo_d > 0){
       ciclo_descarga = true;     
       digitalWrite(pin_d4, LOW);
