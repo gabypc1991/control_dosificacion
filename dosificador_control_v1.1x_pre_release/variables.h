@@ -33,9 +33,10 @@ int f3D1 = 0;
 int f3D2 = 0;
 int f4D1 = 0;
 int f4D2 = 0;
-int t_estabilizacion = 2000;
-int t_delay_kilos = 3000;
-int t_delay_factor = 2;
+int t_estabilizacion;
+//int t_delay_kilos = 3000;
+int t_delay_factor;
+int factor_delay_temp; 
 
 long latter_time;
 long difference;

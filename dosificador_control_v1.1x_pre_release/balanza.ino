@@ -39,11 +39,9 @@ void accion_calibrar(){
     balanza_hx.set_scale(factor);
     EEPROM.put(8, factor);
     lcd.setCursor(0,3); lcd.print("CORRECTO            ");
-    delay(800);
-    user = false;
-    pass_temp = "";
+    delay(800);    
     pulsacion = ' ';
-    contador = 1;
+    contador = 19;
     lcd.clear();
     }
   }

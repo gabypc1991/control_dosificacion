@@ -14,6 +14,7 @@ void menu_3(){
   lcd.setCursor(3,2); lcd.print(f1D2);
   lcd.setCursor(6,2); lcd.print(")");
   if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
+  if(proc_comp == true){lcd.setCursor(11,0); lcd.print("FINALIZ.");}
 //  if(proc_comp == false){
 //    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
 //    lcd.setCursor(14,3); lcd.print("Inic->");
@@ -55,7 +56,7 @@ void accion_3(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -81,7 +82,7 @@ void accion_3(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -120,6 +121,7 @@ void menu_3_1(){
   lcd.setCursor(3,2); lcd.print(f2D2);
   lcd.setCursor(6,2); lcd.print(")");
   if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
+  if(proc_comp == true){lcd.setCursor(11,0); lcd.print("FINALIZ.");}
 //  if(proc_comp == false){
 //    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
 //    lcd.setCursor(14,3); lcd.print("Inic->");
@@ -161,7 +163,7 @@ void accion_3_1(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -187,7 +189,7 @@ void accion_3_1(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -224,6 +226,7 @@ void menu_3_2(){
   lcd.setCursor(3,2); lcd.print(f3D2);
   lcd.setCursor(6,2); lcd.print(")");
   if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
+  if(proc_comp == true){lcd.setCursor(11,0); lcd.print("FINALIZ.");}
 //  if(proc_comp == false){
 //    lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
 //    lcd.setCursor(14,3); lcd.print("Inic->");
@@ -265,7 +268,7 @@ void accion_3_2(){
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
       lcd.setCursor(7,1);lcd.print(peso_d1); 
@@ -291,7 +294,7 @@ void accion_3_2(){
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
-      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion);
+      lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
       lcd.setCursor(7,2);lcd.print(peso_d2);
@@ -319,7 +322,22 @@ void estabilizacion(){
     
   bal_1 = balanza;  
   lcd.setCursor(11,0); lcd.print(" CONTROL ");
-  delay(t_delay_kilos);   
+  delay(t_estabilizacion * 1000);   
   bal_2 = balanza;    
-  result_bal = bal_2 - bal_1;
+  result_bal = bal_2 - bal_1 + t_delay_factor;
+  }
+
+void parada_em(){
+  tiempo = 0;
+  now = 0;
+  hour=0;
+  minutes=0;
+  segundo=0;             
+  proc_activo = false;
+  proc_comp = true;
+  digitalWrite(pin_d1, HIGH);
+  digitalWrite(pin_d2, HIGH);
+  digitalWrite(pin_d3, HIGH);
+  contador = 2;
+  pulsacion = ' ';  
   }

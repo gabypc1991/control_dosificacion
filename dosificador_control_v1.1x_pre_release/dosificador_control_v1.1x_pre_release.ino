@@ -19,6 +19,7 @@ void setup() {
  eeprom_get_inicio();
  
  factor_temp = factor;
+ factor_delay_temp = t_delay_factor;
 
  pinMode(pin_d1, OUTPUT);
  pinMode(pin_d2, OUTPUT);
@@ -72,12 +73,12 @@ void loop() {
  if(contador == 15){ menu_7();accion_7();}
  if(contador == 14){ menu_6();accion_6();} 
  if(contador == 13){ menu_edicionTDescarga();accion_edicionTDescarga();}
-// if(contador == 12){ menu_5_3();accion_5_3();}
+ if(contador == 12){ menu_edicionFactorPeso();accion_edicionFactorPeso();}
  if(contador == 11){ menu_5_2();accion_5_2();}
  if(contador == 10){ menu_5_1();accion_5_1();}
  if(contador == 9){ menu_5();accion_5();}
-// if(contador == 8){ menu_4_4();accion_4_4();}
-// if(contador == 7){ menu_4_3();accion_4_3();}
+ if(contador == 8){ menu_edicionTEstabiliz();accion_edicionTEstabiliz();}
+ if(contador == 7){ menu_parametros();accion_parametros();}
  if(contador == 6){ menu_4_2();accion_4_2();}
  if(contador == 5){ menu_4_1();accion_4_1();}
  if(contador == 4){ menu_4();accion_4();}

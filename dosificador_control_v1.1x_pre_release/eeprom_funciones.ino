@@ -8,4 +8,6 @@ void eeprom_get_inicio(){
   EEPROM.get(24, f3D1);
   EEPROM.get(28, f3D2);
   EEPROM.get(32, t_descarga);
+  EEPROM.get(36, t_delay_factor);
+  EEPROM.get(40, t_estabilizacion);
   }

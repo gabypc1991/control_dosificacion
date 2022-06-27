@@ -139,7 +139,7 @@ void accion_8(){
  if(act_in3 == true){lcd.setCursor(6,3); lcd.print("<-|");}else{lcd.setCursor(6,3); lcd.print("  |");}
  if(act_in4 == true){lcd.setCursor(9,3); lcd.print("<-|");}else{lcd.setCursor(9,3); lcd.print("  |");}
  
- if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '#') {contador = 19;lcd.clear();pulsacion = ' ';}
  }
 
 void menu_9(){ 
@@ -173,9 +173,21 @@ void menu_9(){
 void accion_9(){ 
  if(pulsacion == 'A') {contador = 18;lcd.clear();pulsacion = ' ';}
  if(pulsacion == 'B') {contador = 17;lcd.clear();pulsacion = ' ';}
- if(pulsacion == 'B') {contador = 17;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == 'C') {contador = 7;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
  }
+
+void menu_parametros(){
+  lcd.setCursor(0,0); lcd.print("FACTOR CORRECCION >A");
+  lcd.setCursor(0,1); lcd.print("TIEMPO ESTABILIZ. >B");
+  lcd.setCursor(0,3); lcd.print("Volver <#>");
+  }
+
+void accion_parametros(){
+  if(pulsacion == 'A') {contador = 12;lcd.clear();pulsacion = ' ';}
+  if(pulsacion == 'B') {contador = 8;lcd.clear();pulsacion = ' ';}
+  if(pulsacion == '#') {contador = 19;lcd.clear();pulsacion = ' ';}
+  }
 
 void menu_10(){
 // pos_col1 = 8;
@@ -267,5 +279,96 @@ void menu_edicionTDescarga(){
  }
 
 void accion_edicionTDescarga(){         
+// if(pulsacion == '#') {contador = 4;lcd.clear();pulsacion = ' ';}
+}
+
+void menu_edicionFactorPeso(){ 
+ lcd.setCursor(0,0); lcd.print(" FACTOR CORRECCION  ");
+ lcd.setCursor(0,1); lcd.print("        PESO        "); 
+ lcd.setCursor(0,2); lcd.print("Set kg:");
+ lcd.setCursor(0,3); lcd.print("1>+ | 2>-  Enter <#>");
+
+ }
+
+void accion_edicionFactorPeso(){          
+  if (pulsacion == '1'){factor_delay_temp +=1;}
+  if (pulsacion == '2'){factor_delay_temp -=1;}
+  
+  lcd.setCursor(8,2); lcd.print(factor_delay_temp);
+
+  if (pulsacion == '#'){
+    t_delay_factor = factor_delay_temp;
+    EEPROM.put(36, t_delay_factor);
+    lcd.setCursor(0,3); lcd.print("CORRECTO            ");
+    delay(800);
+    pulsacion = ' ';
+    contador = 7;
+    lcd.clear();
+    }
+}
+
+void menu_edicionTEstabiliz(){
+ bool edit_m = false;
+ bool edit_s = false;
+ int t_estabilizacion_m;
+ int t_estabilizacion_s;
+ lcd.setCursor(0,0); lcd.print("  t ESTABILIZ BAL.   ");
+ lcd.setCursor(0,1); lcd.print("                     ");
+ reloj_1(t_estabilizacion * 1000);
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("-->>");
+ lcd.setCursor(12,1); lcd.print("    ");
+ lcd.setCursor(0,2); lcd.print("Set Minutos:");
+
+ while(edit_m != true){
+  lcd.setCursor(0,3); lcd.print("           Enter <#>");
+  readVal(12, 2);
+  if(myString != ""){
+   edit_m = true;
+   t_estabilizacion_m = myString.toInt();
+   t_estabilizacion_m = t_estabilizacion_m * 60; 
+   reloj_1(t_estabilizacion * 1000);
+   reloj_1_print(7, 1);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_m = true;
+    }
+  }
+
+ lcd.setCursor(0,0); lcd.print("  t ESTABILIZ BAL.   ");
+ lcd.setCursor(0,1); lcd.print("                     ");
+ reloj_1(t_estabilizacion * 1000); 
+ reloj_1_print(7, 1);
+ lcd.setCursor(3,1); lcd.print("    ");
+ lcd.setCursor(12,1); lcd.print("<<--");
+ lcd.setCursor(0,2); lcd.print("Set Segundo:");
+ 
+ while(edit_s != true){
+  lcd.setCursor(0,3); lcd.print("           Enter <#>");
+  readVal(12, 2);
+  if(myString != ""){
+   edit_s = true;
+   t_estabilizacion_s = myString.toInt();
+   t_estabilizacion = t_estabilizacion_m + t_estabilizacion_s;
+   EEPROM.put(40, t_estabilizacion);
+   reloj_1(t_estabilizacion * 1000);   
+   reloj_1_print(7, 1);
+   lcd.setCursor(0,3); lcd.print("CORRECTO");
+   delay(800);
+   }else{
+    edit_s = true;
+    }
+  }
+ segundo_1 = 0;
+ minutes_1 = 0;
+ edit_m = false;
+ edit_s = false; 
+ pulsacion = ' ';
+ contador = 7;
+ lcd.clear();
+ }
+
+void accion_edicionTEstabiliz(){         
 // if(pulsacion == '#') {contador = 4;lcd.clear();pulsacion = ' ';}
 }
