@@ -180,33 +180,47 @@ void accion_9(){
 void menu_parametros(){
   lcd.setCursor(0,0); lcd.print("FACTOR CORRECCION >A");
   lcd.setCursor(0,1); lcd.print("TIEMPO ESTABILIZ. >B");
+  lcd.setCursor(0,1); lcd.print("PESO DE TOLVA     >C");
   lcd.setCursor(0,3); lcd.print("Volver <#>");
   }
 
 void accion_parametros(){
   if(pulsacion == 'A') {contador = 12;lcd.clear();pulsacion = ' ';}
   if(pulsacion == 'B') {contador = 8;lcd.clear();pulsacion = ' ';}
+  if(pulsacion == 'C') {contador = 20;lcd.clear();pulsacion = ' ';}
   if(pulsacion == '#') {contador = 19;lcd.clear();pulsacion = ' ';}
   }
 
-void menu_10(){
-// pos_col1 = 8;
-// pos_fil1 = 2; 
- lcd.setCursor(0,0); lcd.print("      MEZCLADOR     ");
- lcd.setCursor(0,1); lcd.print("  TIEMPO DE PROCESO ");
- lcd.setCursor(0,3); lcd.print("Volver<#>   Reini<*>");
+void menu_pesoTolva(){
+       //pos_col = 11;
+      //pos_fil = 2;
+      lcd.setCursor(0,0); lcd.print("   PESO DE TOLVA    ");
+      lcd.setCursor(0,1); lcd.print(" ACTUAL kg: ");lcd.print("(");lcd.print(kg_recip);lcd.print(")");
+      lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
+//      lcd.setCursor(12,2);
+      while(edit != true){
+        lcd.setCursor(0,3); lcd.print("           Enter <#>");
+        readVal(11, 2);
+        if(myString != ""){
+         edit = true;
+         kg_recip = myString.toInt();
+         EEPROM.put(44, kg_recip);        
+         lcd.setCursor(11,2); lcd.print(kg_recip);
+         lcd.setCursor(0,3); lcd.print("CORRECTO");
+         delay(800);
+         }else{
+           edit = true;
+           }              
+        }
+        contador = 7;
+        edit = false; 
+        lcd.clear();   
+        //lcd.setCursor(0,3); lcd.print("            D2-> <*>");
  }
 
-void accion_10(){
- reloj_1_print(8, 2); 
- if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '*') {
-  tiempo_m = 0;
-  now_1 = 0;
-  hour_1=0;
-  minutes_1=0;
-  segundo_1=0;
-  }
+void accion_pesoTolva(){ 
+// if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+
  }
 
 void menu_edicionTDescarga(){      

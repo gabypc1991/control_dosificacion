@@ -19,6 +19,7 @@ float factor;
 float factor_temp;
 int balanza = 0;
 int balanza_bruto = 0;
+int kg_recip;
 int result_bal;
 int tara = 0;
 bool estab_comp = false;

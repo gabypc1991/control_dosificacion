@@ -3,6 +3,7 @@ void proceso(){
   //balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
   //balanza = (balanza_bruto - tara);  
   balanza = balanza_hx.get_units();
+  balanza = balanza - kg_recip;
   act_in1 = digitalRead(in_1);
   act_in2 = digitalRead(in_2);
   act_in3 = digitalRead(in_3);

@@ -65,7 +65,7 @@ void loop() {
  if(contador == 23){ menu_11();accion_11();}
  if(contador == 22){ menu_3_2();accion_3_2();}
  if(contador == 21){ menu_3_1();accion_3_1();}
- if(contador == 20){ menu_10();accion_10();}
+ if(contador == 20){ menu_pesoTolva();accion_pesoTolva();}
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}

@@ -10,4 +10,5 @@ void eeprom_get_inicio(){
   EEPROM.get(32, t_descarga);
   EEPROM.get(36, t_delay_factor);
   EEPROM.get(40, t_estabilizacion);
+  EEPROM.get(44, kg_recip);
   }
