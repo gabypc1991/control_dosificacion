@@ -11,4 +11,9 @@ void eeprom_get_inicio(){
   EEPROM.get(36, t_delay_factor);
   EEPROM.get(40, t_estabilizacion);
   EEPROM.get(44, kg_recip);
+
+  for(int i = 0; i < 24; i++){
+    EEPROM.get(adr_d1[i], dosis_1[i]);
+    EEPROM.get(adr_d2[i], dosis_2[i]);
+    }
   }

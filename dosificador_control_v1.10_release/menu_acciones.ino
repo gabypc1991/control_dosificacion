@@ -1,55 +1,110 @@
-void menu_1(){ 
+void menu_inicial(){ 
  lcd.setCursor(0,0); lcd.print("SELEC. FORMULA    >1");
  lcd.setCursor(0,1); lcd.print("EDIT. FORMULAS    >2");
  lcd.setCursor(0,2); lcd.print("BALANZA           >3");
  lcd.setCursor(12,3); lcd.print("Mas..<#>");
 }
 
-void accion_1(){ 
- if(pulsacion == '1') {contador = 2;lcd.clear(); pulsacion = ' ';}
+void accion_inicial(){ 
+ if(pulsacion == '1') {contador = 16;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '2') {contador = 4;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '3') {contador = 14;lcd.clear(); pulsacion = ' ';}
- if(pulsacion == '#') {contador = 16;lcd.clear(); pulsacion = ' ';}
+ if(pulsacion == '#') {contador = 2;lcd.clear(); pulsacion = ' ';}
 }
 
-void menu_1_2(){ 
+void menu_inicialPag2(){ 
  lcd.setCursor(0,0); lcd.print("TIEMPO DESCARGA   >1");
  lcd.setCursor(0,1); lcd.print("TIEMPO MEZCLA     >2");
  lcd.setCursor(0,2); lcd.print("AJUSTES           >3");
  lcd.setCursor(10,3); lcd.print("Volver <#>");
 }
 
-void accion_1_2(){ 
+void accion_inicialPag2(){ 
  if(pulsacion == '1') {contador = 13;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '2') {contador = 15;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '3') {contador = 19;lcd.clear(); pulsacion = ' ';}
  if(pulsacion == '#') {contador = 1;lcd.clear(); pulsacion = ' ';}
 }
 
-void menu_2(){ 
- lcd.setCursor(0,0); lcd.print("FORM1 <1>           ");
- lcd.setCursor(0,1); lcd.print("FORM2 <2>           ");
- lcd.setCursor(0,2); lcd.print("FORM3 <3>           ");
- lcd.setCursor(10,3); lcd.print("Volver <#>");
+void menu_formPag1(){ 
+ lcd.setCursor(0,0); lcd.print("FORM 1<1>  FORM 4<4>");
+ lcd.setCursor(0,1); lcd.print("FORM 2<2>  FORM 5<5>");
+ lcd.setCursor(0,2); lcd.print("FORM 3<3>  FORM 6<6>");
+ lcd.setCursor(0,3); lcd.print("Pag 2 <*>  Volver<#>");
 }
 
-void accion_2(){ 
+void accion_formPag1(){ 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '1') {contador = 3;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '2') {contador = 21;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '3') {contador = 22;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 3;contador_formula = 0;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '2') {contador = 3;contador_formula = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 3;contador_formula = 2;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '4') {contador = 3;contador_formula = 3;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '5') {contador = 3;contador_formula = 4;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '6') {contador = 3;contador_formula = 5;lcd.clear();pulsacion = ' ';}
 }
 
-void menu_7(){      
- //pos_col = 12;
- //pos_fil = 2;
+void menu_formPag2(){ 
+ lcd.setCursor(0,0); lcd.print("FORM 7<1>  FORM10<4>");
+ lcd.setCursor(0,1); lcd.print("FORM 8<2>  FORM11<5>");
+ lcd.setCursor(0,2); lcd.print("FORM 9<3>  FORM12<6>");
+ lcd.setCursor(0,3); lcd.print("Pag 3 <*>  Volver<#>");
+}
+
+void accion_formPag2(){ 
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 3;contador_formula = 6;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '2') {contador = 3;contador_formula = 7;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 3;contador_formula = 8;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '4') {contador = 3;contador_formula = 9;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '5') {contador = 3;contador_formula = 10;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '6') {contador = 3;contador_formula = 11;lcd.clear();pulsacion = ' ';}
+}
+
+void menu_formPag3(){ 
+ lcd.setCursor(0,0); lcd.print("FORM13<1>  FORM16<4>");
+ lcd.setCursor(0,1); lcd.print("FORM14<2>  FORM17<5>");
+ lcd.setCursor(0,2); lcd.print("FORM15<3>  FORM18<6>");
+ lcd.setCursor(0,3); lcd.print("Pag 4 <*>  Volver<#>");
+}
+
+void accion_formPag3(){ 
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 3;contador_formula = 12;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '2') {contador = 3;contador_formula = 13;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 3;contador_formula = 14;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '4') {contador = 3;contador_formula = 15;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '5') {contador = 3;contador_formula = 16;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '6') {contador = 3;contador_formula = 17;lcd.clear();pulsacion = ' ';}
+}
+
+void menu_formPag4(){ 
+ lcd.setCursor(0,0); lcd.print("FORM19<1>  FORM22<4>");
+ lcd.setCursor(0,1); lcd.print("FORM20<2>  FORM23<5>");
+ lcd.setCursor(0,2); lcd.print("FORM21<3>  FORM24<6>");
+ lcd.setCursor(0,3); lcd.print("Pag 1 <*>  Volver<#>");
+}
+
+void accion_formPag4(){ 
+ if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '1') {contador = 3;contador_formula = 18;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '2') {contador = 3;contador_formula = 19;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '3') {contador = 3;contador_formula = 20;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '4') {contador = 3;contador_formula = 21;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '5') {contador = 3;contador_formula = 22;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '6') {contador = 3;contador_formula = 23;lcd.clear();pulsacion = ' ';}
+}
+
+void menu_tMezcla(){
  bool edit_m = false;
  bool edit_s = false;
  int t_mezcla_m;
  int t_mezcla_s;
  lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
  lcd.setCursor(0,1); lcd.print("                     ");
-// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
  reloj_1(t_mezcla * 1000);
  reloj_1_print(7, 1);
  lcd.setCursor(3,1); lcd.print("-->>");
@@ -63,10 +118,8 @@ void menu_7(){
    edit_m = true;
    t_mezcla_m = myString.toInt();
    t_mezcla_m = t_mezcla_m * 60;
-//   EEPROM.put(12, t_mezcla);   
    reloj_1(t_mezcla * 1000);
    reloj_1_print(7, 1);
-//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
    lcd.setCursor(0,3); lcd.print("CORRECTO");
    delay(800);
    }else{
@@ -76,7 +129,6 @@ void menu_7(){
 
  lcd.setCursor(0,0); lcd.print("  TIEMPO DE MEZCLA   ");
  lcd.setCursor(0,1); lcd.print("                     ");
-// lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
  reloj_1(t_mezcla * 1000); 
  reloj_1_print(7, 1);
  lcd.setCursor(3,1); lcd.print("    ");
@@ -92,8 +144,7 @@ void menu_7(){
    t_mezcla = t_mezcla_m + t_mezcla_s;
    EEPROM.put(12, t_mezcla);
    reloj_1(t_mezcla * 1000);   
-   reloj_1_print(7, 1);   
-//   lcd.setCursor(11,1); lcd.print("("); lcd.print(t_mezcla / 600); lcd.print(")");
+   reloj_1_print(7, 1);
    lcd.setCursor(0,3); lcd.print("CORRECTO");
    delay(800);
    }else{
@@ -105,11 +156,11 @@ void menu_7(){
  edit_m = false;
  edit_s = false;
  pulsacion = ' ';
- contador = 16;
+ contador = 2;
  lcd.clear();
  }
 
-void accion_7(){         
+void accion_tMezcla(){         
 // if(pulsacion == '#') {contador = 4;lcd.clear();pulsacion = ' ';}
 }
 
@@ -165,7 +216,7 @@ void menu_9(){
    delay(800);
    user = false;
    pass_temp = "";
-   contador = 1;
+   contador = 2;
    lcd.clear();  
    }
  }
@@ -174,13 +225,13 @@ void accion_9(){
  if(pulsacion == 'A') {contador = 18;lcd.clear();pulsacion = ' ';}
  if(pulsacion == 'B') {contador = 17;lcd.clear();pulsacion = ' ';}
  if(pulsacion == 'C') {contador = 7;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '#') {user = false;pass_temp = "";contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '#') {user = false;pass_temp = "";contador = 2;lcd.clear();pulsacion = ' ';}
  }
 
 void menu_parametros(){
   lcd.setCursor(0,0); lcd.print("FACTOR CORRECCION >A");
   lcd.setCursor(0,1); lcd.print("TIEMPO ESTABILIZ. >B");
-  lcd.setCursor(0,1); lcd.print("PESO DE TOLVA     >C");
+  lcd.setCursor(0,2); lcd.print("PESO DE TOLVA     >C");
   lcd.setCursor(0,3); lcd.print("Volver <#>");
   }
 
@@ -288,7 +339,7 @@ void menu_edicionTDescarga(){
  edit_m = false;
  edit_s = false;
  pulsacion = ' ';
- contador = 16;
+ contador = 2;
  lcd.clear();
  }
 

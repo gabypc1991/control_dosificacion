@@ -1,7 +1,9 @@
 #define MENU_BALANZA 1
 
-int dosis_1[24] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int dosis_2[24] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int dosis_1[24];
+int dosis_2[24];
+int adr_d1[24] = {100,108,116,124,132,140,148,156,164,172,180,188,196,204,212,220,228,236,244,252,260,268,276,284};
+int adr_d2[24] = {104,112,120,128,136,144,152,160,168,176,184,192,200,208,216,224,232,240,248,256,264,272,280,288};
 
 const int pin_d1 = 36;
 const int pin_d2 = 34;
@@ -98,7 +100,8 @@ bool salida;
 const int DOUT=A1;
 const int CLK=A0;
 
-int  contador = 1;    // cuenta el nivel del menu en el que se esta
+int contador_formula;
+int contador = 1;    // cuenta el nivel del menu en el que se esta
 const byte ROWS = 4;  //Cuatro Filas
 const byte COLS = 4;  //Cuatro Columnas 
 char keys[ROWS][COLS] = {

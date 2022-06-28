@@ -44,7 +44,6 @@ void setup() {
  Serial.begin(9600);
  balanza_hx.begin(DOUT, CLK);
  balanza_hx.set_scale(factor);
-// balanza_hx.tare(20); 
  Timer1.initialize(100000);
  Timer1.attachInterrupt(proceso);
  lcd.init();
@@ -63,14 +62,14 @@ void loop() {
  if(contador == 25){ menu_11_2();accion_11_2();}
  if(contador == 24){ menu_11_1();accion_11_1();}
  if(contador == 23){ menu_11();accion_11();}
- if(contador == 22){ menu_3_2();accion_3_2();}
- if(contador == 21){ menu_3_1();accion_3_1();}
+// if(contador == 22){ menu_3_2();accion_3_2();}
+// if(contador == 21){ menu_3_1();accion_3_1();}
  if(contador == 20){ menu_pesoTolva();accion_pesoTolva();}
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}
- if(contador == 16){ menu_1_2();accion_1_2();}
- if(contador == 15){ menu_7();accion_7();}
+ if(contador == 16){ menu_formPag1();accion_formPag1();}
+ if(contador == 15){ menu_tMezcla();accion_tMezcla();}
  if(contador == 14){ menu_6();accion_6();} 
  if(contador == 13){ menu_edicionTDescarga();accion_edicionTDescarga();}
  if(contador == 12){ menu_edicionFactorPeso();accion_edicionFactorPeso();}
@@ -82,7 +81,7 @@ void loop() {
  if(contador == 6){ menu_4_2();accion_4_2();}
  if(contador == 5){ menu_4_1();accion_4_1();}
  if(contador == 4){ menu_4();accion_4();}
- if(contador == 3){ menu_3();accion_3();}
- if(contador == 2){ menu_2();accion_2();}
- if(contador == 1){ menu_1();accion_1();} 
+ if(contador == 3){ menu_formula();accion_formula();}
+ if(contador == 2){ menu_inicialPag2();accion_inicialPag2();}
+ if(contador == 1){ menu_inicial();accion_inicial();} 
 }
