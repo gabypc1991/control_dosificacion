@@ -46,6 +46,7 @@ void accion_3(){
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
+         if(peso_temp < 0){peso_temp = 0;}
          peso_d1 = peso_temp;
          if(peso_d1 > (f1D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
@@ -153,6 +154,7 @@ void accion_3_1(){
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
+         if(peso_temp < 0){peso_temp = 0;}
          peso_d1 = peso_temp;
          if(peso_d1 > (f2D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
@@ -258,6 +260,7 @@ void accion_3_2(){
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
+         if(peso_temp < 0){peso_temp = 0;}
          peso_d1 = peso_temp;
          if(peso_d1 > (f3D1 / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
