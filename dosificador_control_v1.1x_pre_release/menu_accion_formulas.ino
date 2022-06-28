@@ -52,14 +52,14 @@ void accion_3(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
-      lcd.setCursor(7,1);lcd.print(peso_d1); 
+      lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  "); 
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -78,14 +78,14 @@ void accion_3(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
-      lcd.setCursor(7,2);lcd.print(peso_d2);
+      lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -159,14 +159,14 @@ void accion_3_1(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
-      lcd.setCursor(7,1);lcd.print(peso_d1); 
+      lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -185,14 +185,14 @@ void accion_3_1(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
-      lcd.setCursor(7,2);lcd.print(peso_d2);
+      lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -264,14 +264,14 @@ void accion_3_2(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print(" ");
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
      
       peso_d1 = balanza;
-      lcd.setCursor(7,1);lcd.print(peso_d1); 
+      lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;
@@ -290,14 +290,14 @@ void accion_3_2(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
       lcd.setCursor(11,0); lcd.print("ESTABIL.");delay(t_estabilizacion * 1000);
     
       peso_d2 = balanza - peso_d1;
-      lcd.setCursor(7,2);lcd.print(peso_d2);
+      lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print("  ");
       peso_temp = 0;   
       result_bal = 0;
       estab_comp = false;

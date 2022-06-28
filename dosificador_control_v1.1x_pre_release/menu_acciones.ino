@@ -180,7 +180,7 @@ void accion_9(){
 void menu_parametros(){
   lcd.setCursor(0,0); lcd.print("FACTOR CORRECCION >A");
   lcd.setCursor(0,1); lcd.print("TIEMPO ESTABILIZ. >B");
-  lcd.setCursor(0,1); lcd.print("PESO DE TOLVA     >C");
+  lcd.setCursor(0,2); lcd.print("PESO DE TOLVA     >C");
   lcd.setCursor(0,3); lcd.print("Volver <#>");
   }
 
