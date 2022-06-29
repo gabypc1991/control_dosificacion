@@ -6,14 +6,14 @@ void menu_formula(){
   lcd.setCursor(3,1); lcd.print(dosis_1[contador_formula]);
   lcd.setCursor(6,1); lcd.print(")");
   lcd.setCursor(0,2); lcd.print("D2(");
-  lcd.setCursor(3,2); lcd.print(dosis_1[contador_formula]);
+  lcd.setCursor(3,2); lcd.print(dosis_2[contador_formula]);
   lcd.setCursor(6,2); lcd.print(")");
   if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
   if(proc_comp == true){lcd.setCursor(11,0); lcd.print("FINALIZ.");}
   }
 
 void accion_formula(){ 
-   if(pulsacion == '#') {contador = 2;proc_comp = false;lcd.clear();pulsacion = ' ';}
+   if(pulsacion == '#') {contador = 16;contador_formula = 0;proc_comp = false;lcd.clear();pulsacion = ' ';}
    reloj_1_print(14, 2);
    if((pulsacion == '*' || act_in3 != true) && balanza < 5) {
     
@@ -34,6 +34,7 @@ void accion_formula(){
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
+         if(peso_temp < 0){peso_temp = 0;}
          peso_d1 = peso_temp;
          if(peso_d1 > (dosis_1[contador_formula] / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
@@ -115,6 +116,7 @@ void parada_em(){
   digitalWrite(pin_d1, HIGH);
   digitalWrite(pin_d2, HIGH);
   digitalWrite(pin_d3, HIGH);
-  contador = 2;
+  contador = 16;
+  contador_formula = 0;
   pulsacion = ' ';  
   }

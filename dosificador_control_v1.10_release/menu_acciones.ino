@@ -35,7 +35,7 @@ void menu_formPag1(){
 
 void accion_formPag1(){ 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 9;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '1') {contador = 3;contador_formula = 0;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '2') {contador = 3;contador_formula = 1;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '3') {contador = 3;contador_formula = 2;lcd.clear();pulsacion = ' ';}
@@ -53,7 +53,7 @@ void menu_formPag2(){
 
 void accion_formPag2(){ 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 10;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '1') {contador = 3;contador_formula = 6;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '2') {contador = 3;contador_formula = 7;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '3') {contador = 3;contador_formula = 8;lcd.clear();pulsacion = ' ';}
@@ -71,7 +71,7 @@ void menu_formPag3(){
 
 void accion_formPag3(){ 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 11;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '1') {contador = 3;contador_formula = 12;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '2') {contador = 3;contador_formula = 13;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '3') {contador = 3;contador_formula = 14;lcd.clear();pulsacion = ' ';}
@@ -89,7 +89,7 @@ void menu_formPag4(){
 
 void accion_formPag4(){ 
  if(pulsacion == '#') {contador = 1;lcd.clear();pulsacion = ' ';}
- if(pulsacion == '*') {contador = 1;lcd.clear();pulsacion = ' ';}
+ if(pulsacion == '*') {contador = 16;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '1') {contador = 3;contador_formula = 18;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '2') {contador = 3;contador_formula = 19;lcd.clear();pulsacion = ' ';}
  if(pulsacion == '3') {contador = 3;contador_formula = 20;lcd.clear();pulsacion = ' ';}
