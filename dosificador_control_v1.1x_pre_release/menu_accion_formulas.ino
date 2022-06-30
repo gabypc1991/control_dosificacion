@@ -95,7 +95,11 @@ void accion_3(){
       now = 0;
       hour=0;
       minutes=0;
-      segundo=0;             
+      segundo=0;
+      peso_temp = 0;   
+      result_bal = 0;
+      peso_d1 = 0;
+      peso_d2 = 0;         
       proc_activo = false;
       proc_comp = true;
     }
@@ -203,7 +207,11 @@ void accion_3_1(){
       now = 0;
       hour=0;
       minutes=0;
-      segundo=0;             
+      segundo=0;
+      peso_temp = 0;   
+      result_bal = 0;
+      peso_d1 = 0;
+      peso_d2 = 0;               
       proc_activo = false;
       proc_comp = true;
     }
@@ -309,7 +317,11 @@ void accion_3_2(){
       now = 0;
       hour=0;
       minutes=0;
-      segundo=0;             
+      segundo=0;
+      peso_temp = 0;   
+      result_bal = 0;
+      peso_d1 = 0;
+      peso_d2 = 0;               
       proc_activo = false;
       proc_comp = true;
     }
