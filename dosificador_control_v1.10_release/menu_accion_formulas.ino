@@ -1,6 +1,6 @@
 void menu_formula(){
   lcd.setCursor(0,0); lcd.print("Form.");lcd.print(contador_formula + 1);
-  lcd.setCursor(0,9); lcd.print("t:");
+  lcd.setCursor(9,0); lcd.print("t:");
   lcd.setCursor(13,3); lcd.print("Salir>#");
   lcd.setCursor(0,3);lcd.print("Bal.Kg:");lcd.print(balanza);lcd.print("  ");
   lcd.setCursor(0,1); lcd.print("D1(");

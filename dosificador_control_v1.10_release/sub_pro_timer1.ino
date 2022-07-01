@@ -1,9 +1,11 @@
-void proceso(){  
-  //int temp_bal = analogRead(A8);
-  //balanza_bruto = map(temp_bal, 0, 1023, 0, 999);
-  //balanza = (balanza_bruto - tara);  
-  balanza = balanza_hx.get_units(5);
-  balanza = balanza - kg_recip;
+void proceso(){
+  static int balanza_temp;
+  static int lectura_balanza;  
+
+  lectura_balanza = balanza_hx.get_units(5);
+  if(lectura_balanza - balanza_temp < 10){balanza = balanza - kg_recip;}  
+  balanza_temp = lectura_balanza;
+  
   act_in1 = digitalRead(in_1);
   act_in2 = digitalRead(in_2);
   act_in3 = digitalRead(in_3);
