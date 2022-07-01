@@ -3,7 +3,7 @@ void proceso(){
   static int lectura_balanza;  
 
   lectura_balanza = balanza_hx.get_units(5);
-  if(lectura_balanza - balanza_temp < 10){balanza = balanza - kg_recip;}  
+  if((lectura_balanza - balanza_temp < 10) && lectura_balanza >= 0){balanza = lectura_balanza - kg_recip;}  
   balanza_temp = lectura_balanza;
   
   act_in1 = digitalRead(in_1);

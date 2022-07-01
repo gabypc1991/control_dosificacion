@@ -35,14 +35,14 @@ void accion_formula(){
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
          peso_temp = balanza;
-         if(peso_temp < 0){peso_temp = 0;}
+//         if(peso_temp < 0){peso_temp = 0;}
          peso_d1 = peso_temp;
          if(peso_d1 > (dosis_1[contador_formula] / 2) && estab_comp != true){digitalWrite(pin_d1, HIGH);estabilizacion(); estab_comp = true;}
          digitalWrite(pin_d1, LOW); act_d1 = true;
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,1);lcd.print(dosis_1[contador_formula]);lcd.print("  ");
+         lcd.setCursor(7,1);lcd.print(peso_d1);lcd.print("  ");
          delay(100);            
          }
       digitalWrite(pin_d1, HIGH); act_d1 = false;            
