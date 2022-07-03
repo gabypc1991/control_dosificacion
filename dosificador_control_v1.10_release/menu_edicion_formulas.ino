@@ -1,5 +1,5 @@
 void menu_editFormula(){ 
-  lcd.setCursor(0,0); lcd.print("Formula ");lcd.print(contador_formula + 1);
+  lcd.setCursor(0,0); lcd.print("Ed1it. Formula ");lcd.print(contador_formula + 1);
   lcd.setCursor(0,1); lcd.print("A>D1:");lcd.print(dosis_1[contador_formula]);
   lcd.setCursor(0,2); lcd.print("B>D2:");lcd.print(dosis_2[contador_formula]);
   lcd.setCursor(0,3); lcd.print("<-C | D->  Volver<#>");

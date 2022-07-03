@@ -1,3 +1,17 @@
+void menu_selecFormula(){ 
+  lcd.setCursor(0,0); lcd.print("Selec. Formula ");lcd.print(contador_formula + 1);
+  lcd.setCursor(0,1); lcd.print("D1:");lcd.print(dosis_1[contador_formula]);
+  lcd.setCursor(0,2); lcd.print("D2:");lcd.print(dosis_2[contador_formula]);
+  lcd.setCursor(0,3); lcd.print("<-C | D->  Volver<#>");
+}
+
+void accion_selecFormula(){ 
+    if(pulsacion == '#') {contador = 1;contador_formula = 0;lcd.clear();pulsacion = ' ';}
+    if(pulsacion == 'D') {contador_formula += 1;if(contador_formula > 23){contador_formula = 0;} lcd.clear();pulsacion = ' ';}
+    if(pulsacion == 'C') {contador_formula -= 1;if(contador_formula < 0){contador_formula = 23;} lcd.clear();pulsacion = ' ';}
+}
+
+
 void menu_formula(){
   lcd.setCursor(0,0); lcd.print("Form.");lcd.print(contador_formula + 1);
   lcd.setCursor(9,0); lcd.print("t:");
