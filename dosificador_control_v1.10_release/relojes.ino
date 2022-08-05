@@ -48,4 +48,5 @@ void reloj_1_print(int col, int fil) {
   lcd.print(":");
   if(segundo_1<10)lcd.print("0");
   lcd.print(segundo_1);
+  lcd.print(" ");
  }

@@ -3,6 +3,8 @@ void proceso(){
   static int lectura_balanza;  
 
   lectura_balanza = balanza_hx.get_units(5);
+  balanza_bruto = lectura_balanza;
+  
   if(lectura_balanza >= 0){
    if(lectura_balanza - balanza_temp >= 0){
     if(lectura_balanza - balanza_temp < 20){balanza = lectura_balanza - kg_recip;}  
