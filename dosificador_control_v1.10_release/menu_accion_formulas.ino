@@ -1,12 +1,14 @@
 void menu_selecFormula(){ 
   lcd.setCursor(0,0); lcd.print("Selec. Formula ");lcd.print(contador_formula + 1);
   lcd.setCursor(0,1); lcd.print("D1:");lcd.print(dosis_1[contador_formula]);
-  lcd.setCursor(0,2); lcd.print("D2:");lcd.print(dosis_2[contador_formula]);
+  lcd.setCursor(12,1); lcd.print("D2:");lcd.print(dosis_2[contador_formula]);
+  lcd.setCursor(0,2); lcd.print("          Elegir <*>");
   lcd.setCursor(0,3); lcd.print("<-C | D->  Volver<#>");
 }
 
 void accion_selecFormula(){ 
     if(pulsacion == '#') {contador = 1;contador_formula = 0;lcd.clear();pulsacion = ' ';}
+    if(pulsacion == '*') {contador = 3;lcd.clear();pulsacion = ' ';}
     if(pulsacion == 'D') {contador_formula += 1;if(contador_formula > 23){contador_formula = 0;} lcd.clear();pulsacion = ' ';}
     if(pulsacion == 'C') {contador_formula -= 1;if(contador_formula < 0){contador_formula = 23;} lcd.clear();pulsacion = ' ';}
 }
@@ -45,6 +47,7 @@ void accion_formula(){
      if(dosis_1[contador_formula] != 0){   
        while(peso_temp < (dosis_1[contador_formula] - result_bal)) {      
          pulsacion = Teclado1.getKey();
+         if(balanza > (dosis_1[contador_formula] + 10)){digitalWrite(pin_d1, HIGH); act_d1 = false; digitalWrite(pin_d2, HIGH); act_d2 = false; break;}
          if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -72,6 +75,7 @@ void accion_formula(){
     if(dosis_2[contador_formula] != 0){  
       while(peso_temp < (dosis_2[contador_formula] - result_bal)){
          pulsacion = Teclado1.getKey();
+         if(balanza > (dosis_1[contador_formula] + dosis_2[contador_formula] + 5)){digitalWrite(pin_d1, HIGH); act_d1 = false; digitalWrite(pin_d2, HIGH); act_d2 = false; break;}
          if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
@@ -82,7 +86,7 @@ void accion_formula(){
          tiempo += 1;
          reloj(11, 0);
          reloj_1_print(14, 2);
-         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");
+         lcd.setCursor(7,2);lcd.print(peso_d2);lcd.print(" ");         
          delay(100);            
          }
       digitalWrite(pin_d2, HIGH); act_d2 = false;
@@ -102,7 +106,9 @@ void accion_formula(){
       peso_temp = 0;   
       result_bal = 0;
       peso_d1 = 0;
-      peso_d2 = 0;               
+      peso_d2 = 0;
+      digitalWrite(pin_d1, HIGH); act_d1 = false;
+      digitalWrite(pin_d2, HIGH); act_d2 = false;               
       proc_activo = false;
       proc_comp = true;
     }

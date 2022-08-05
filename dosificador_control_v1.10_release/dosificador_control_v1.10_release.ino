@@ -72,7 +72,7 @@ void loop() {
  if(contador == 19){ menu_9();accion_9();}
  if(contador == 18){ calibrar_balanza();accion_calibrar();} 
  if(contador == 17){ menu_8();accion_8();}
- if(contador == 16){ menu_formPag1();accion_formPag1();}
+ if(contador == 16){ menu_selecFormula();accion_selecFormula();} //menu_formPag1();accion_formPag1();
  if(contador == 15){ menu_tMezcla();accion_tMezcla();}
  if(contador == 14){ menu_6();accion_6();} 
  if(contador == 13){ menu_edicionTDescarga();accion_edicionTDescarga();}
