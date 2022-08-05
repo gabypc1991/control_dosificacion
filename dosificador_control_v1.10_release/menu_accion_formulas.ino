@@ -75,7 +75,7 @@ void accion_formula(){
     if(dosis_2[contador_formula] != 0){  
       while(peso_temp < (dosis_2[contador_formula] - result_bal)){
          pulsacion = Teclado1.getKey();
-         if(balanza > (dosis_1[contador_formula] + dosis_2[contador_formula] + 5)){digitalWrite(pin_d1, HIGH); act_d1 = false; digitalWrite(pin_d2, HIGH); act_d2 = false; break;}
+         if(balanza > (peso_d1 + dosis_2[contador_formula] + 5)){digitalWrite(pin_d1, HIGH); act_d1 = false; digitalWrite(pin_d2, HIGH); act_d2 = false; break;}
          if(ciclo_descarga != true){lcd.setCursor(13,1); lcd.print("MEZCLA");}else{lcd.setCursor(13,1); lcd.print("DESCAR");}
          lcd.setCursor(8,3);lcd.print(balanza);lcd.print("   ");
          if(pulsacion == '#') break;
