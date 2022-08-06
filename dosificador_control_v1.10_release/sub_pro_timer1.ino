@@ -7,9 +7,9 @@ void proceso(){
   
   if(lectura_balanza >= 0){
    if(lectura_balanza - balanza_temp >= 0){
-    if(lectura_balanza - balanza_temp < 20){balanza = lectura_balanza - kg_recip;}  
-    balanza_temp = lectura_balanza;
+    if(lectura_balanza - balanza_temp < 20){balanza = lectura_balanza - kg_recip;}      
    }
+   balanza_temp = lectura_balanza;
   }
   
   act_in1 = digitalRead(in_1);

@@ -1,9 +1,10 @@
 void menu_6(){ 
  lcd.setCursor(0,0); lcd.print("   SENSOR BALANZA   ");
- lcd.setCursor(0,1); lcd.print("      TARA  <*>     ");
+ lcd.setCursor(0,1); lcd.print("Bruto:");
+ lcd.setCursor(11,1); lcd.print(balanza_bruto);lcd.print("   ");
  lcd.setCursor(0,2); lcd.print("VALOR (Kg):");
- lcd.setCursor(11,2); lcd.print(balanza_bruto);lcd.print("   ");
- lcd.setCursor(0,3); lcd.print("          Volver <#>");            
+ lcd.setCursor(11,2); lcd.print(balanza);lcd.print("   ");
+ lcd.setCursor(0,3); lcd.print("Tara<*>   Volver <#>");            
  }
 
 void accion_6(){                 
